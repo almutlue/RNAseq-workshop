@@ -1,0 +1,108 @@
+---
+title: "Data Loading"
+format: html
+editor: visual
+execute:
+  eval: false
+---
+
+In this workshop, we will work with an RNA-seq dataset from the Gene Expression Omnibus (GEO), accession GSE96870^[Blackmore, Stephen, et al. “Influenza infection triggers disease in a genetic model of experimental autoimmune encephalomyelitis.” Proceedings of the National Academy of Sciences 114.30 (2017): E6107-E6116.]. The study examines gene expression in the mouse cerebellum across different developmental time points and biological conditions. The dataset includes a count matrix (raw gene expression values) and sample metadata describing experimental variables such as time and sample ID.
+
+
+## Get the Dataset
+
+With the `GEOquery` package public datasets from GEO can directly be downloaded and loaded as R object (option A) or the counts and metadata files can be downloaded to generate a `SummarizedExperiment` object from them (option B).
+Chose only one of the options, but try to answer all questions.
+
+### Exercise 1 (option A): Download the dataset from GEO
+
+```r
+library(GEOquery)
+gse <- getGEO("GSE96870", GSEMatrix = TRUE)
+se
+
+```
+
+### Exercise 2 (option B): Load the data from csv
+Alternatively the data can be downloaded original workshop and read into R. Adapt the path to your file structure!
+```r
+download.file(
+    url = "https://github.com/carpentries-incubator/bioc-rnaseq/raw/main/episodes/data/GSE96870_coldata_cerebellum.csv", 
+    destfile = "../../data/GSE96870_coldata_cerebellum.csv"
+)
+
+download.file(
+    url = "https://github.com/carpentries-incubator/bioc-rnaseq/raw/main/episodes/data/GSE96870_coldata_all.csv", 
+    destfile = "../../data/GSE96870_coldata_all.csv"
+)
+
+counts <- read.csv("../../data/GSE96870_counts_cerebellum.csv", row.names = 1)
+coldata <- read.csv("../../data/GSE96870_coldata_cerebellum.csv", row.names = 1)
+
+dim(counts)
+dim(coldata)
+
+```
+__Question__: How many genes and samples are there?
+
+## Build the R object
+
+### Exercise 3 (option B): Create a `SummarizedExperiment` object
+
+```r
+library(SummarizedExperiment)
+
+se <- SummarizedExperiment(
+  assays = list(counts = as.matrix(counts)),
+  colData = coldata
+)
+se
+
+```
+__Question__: What metadata are available? How many samples are from male mice?
+
+
+### Exercise 4 (optional): Add gene symbols
+
+```r
+library(org.Mm.eg.db)
+library(AnnotationDbi)
+
+rowData(se)$symbol <- mapIds(
+  org.Mm.eg.db,
+  keys = rownames(se),
+  column = "SYMBOL",
+  keytype = "ENTREZID",
+  multiVals = "first"
+)
+
+head(rowData(se))
+
+```
+__Question__: Why are some symbols missing (`NA`)?
+
+## Explore the data
+
+### Exercise 5: Inspect object
+
+```r
+nrow(se)   # number of genes
+ncol(se)   # number of samples
+
+colData(se)
+assay(se)[1:5, 1:5]
+
+table(se$sex)
+
+```
+__Question__: How many timepoints does the dataset contain?
+
+
+## Save Processed Object
+
+### Exercise 6: Save the se object for use in the next exercise
+
+```r
+saveRDS(se, file = "../../output/se_cerebellum.rds") # Adapt path to your folder structure!!
+
+```

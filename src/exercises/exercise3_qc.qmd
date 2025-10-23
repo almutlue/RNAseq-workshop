@@ -1,0 +1,62 @@
+---
+title: "Exploratory Data Analysis and Quality Control"
+format: html
+editor: visual
+execute:
+  eval: false
+---
+
+### Exercise 0: Load Existing Data Object
+
+Load the `SummarizedExperiment` object created earlier (skip if it's still in your environment).
+
+```r
+se <- readRDS("../../output/se_cerebellum.rds")  # adapt path to your folder structure!
+se
+```
+
+## Gene Filtering
+
+### Exercise 1: Remove genes with very low counts across all samples
+
+```r
+keep <- rowSums(assay(se)) > 5
+se_filt <- se[keep, ]
+nrow(se) 
+nrow(se_filt)
+```
+__Question__: How many genes were removed?
+
+## Normalization
+
+### Exercise 2: Transform the data
+Check the variance across genes with different mean counts. The `variance-stabilizing transformation` was developed as part of the `DESeq2` package to account for this variance-mean relationship. The `DESeq2` package uses the `DESeqDataSet` as underlying object class. The structure is an extension of the `SummarizedExperiment` class.
+
+```r
+library(DESeq2)
+# Generate the object
+dds <- DESeqDataSet(se_filt, design = ~ 1)
+
+# Plot the mean sd relationship
+meanSdPlot(assay(dds), ranks = FALSE)
+
+# Transform the data
+vsd <- vst(dds)
+
+# Plot the transformed data
+meanSdPlot(assay(dds), ranks = FALSE)
+
+```
+
+## Data Visualization
+
+### Exercise 3: Perform a principal component analysis
+
+```r
+pca <- prcomp(t(assay(vsd)))
+plot(pca$x[,1], pca$x[,2],
+     xlab = "PC1", ylab = "PC2")
+text(pca$x[,1], pca$x[,2], labels = colnames(vsd), pos = 3)
+
+```
+__Question__: Do samples cluster by any known variable (e.g., time)?

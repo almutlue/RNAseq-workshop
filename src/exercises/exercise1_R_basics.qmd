@@ -1,0 +1,100 @@
+---
+title: "R Basics Exercises"
+format: html
+editor: visual
+execute:
+  eval: false
+---
+
+This section introduces essential R skills needed for the RNA-seq workshop. Explanations will be covered in the presentation; here we focus on practical steps.
+
+---
+
+## R and RStudio
+
+### Exercise 1: Open a project
+
+Open RStudio and create a new **R Project** in a folder called `rnaseq_workshop`.
+
+### Exercise 2: Try the Console
+
+In the Console, type:
+
+```r
+2 + 5
+"Hello, RNAseq!"
+```
+### Exercise 3: Create and run a script
+
+1. Create a new R script called `intro.R`.
+2. Add the following code:
+
+```r
+# My first script
+3 * 4
+```
+3. Run the line using `Ctrl/Cmd` + `Enter`.
+
+## Objects and Classes
+
+### Exercise 4: Create some basic objects
+
+```r
+genes <- 20000
+sample_name <- "Sample1"
+is_control <- TRUE
+```
+### Exercise 5: Check object classes
+
+```r
+class(genes)
+class(sample_name)
+class(is_control)
+```
+
+### Exercise 6: Create and explore a vector
+
+```r
+counts <- c(10, 50, 200, 0)
+length(counts)
+
+```
+
+## Bioconductor
+
+### Exercise 7: Load the package
+
+```r
+library(SummarizedExperiment)
+```
+
+### Exercise 8: Load example dataset
+
+The package come with some example data, that can be loaded using the `example()` function.
+
+```r
+example(SE)
+```
+
+### Exercise 9: Explore the object
+
+You can use the following functions to access different parts of the object. Try to answer the following questions:
+1. What does the output represent?
+2. What is the advantage of combining these different parts of the data (e.g. metadata, count data)?
+3. [BONUS] How can you downsample the object to the first 10 features? Check the [vignette](https://bioconductor.org/packages/devel/bioc/vignettes/SummarizedExperiment/inst/doc/SummarizedExperiment.html) or ask a LLM, if you need help. 
+
+```r
+se
+assay(se)
+colData(se)
+rowData(se)
+```
+
+### Exercise 10: Determine dataset size
+
+```r
+dim(se)      # rows = genes/features, cols = samples
+nrow(se)     # number of rows (features)
+ncol(se)     # number of columns (samples)
+
+```

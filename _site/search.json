@@ -1,0 +1,198 @@
+[
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "This workshop was developed for the Young Investigators Symposium of the Skintegrity Network to introduce researchers to bulk RNA-seq data analysis using R and Bioconductor. It focuses on practical understanding and hands-on application of fundamental analysis steps, from data import to differential expression and enrichment analysis.\n\n\nThis workshop is designed for: - Researchers with little or no prior experience in RNA-seq analysis - Students and early-stage postdocs in the biomedical/life sciences - Participants who have basic familiarity with R (e.g., creating variables, loading packages)\n\n\n\nRNA-seq is a powerful tool for understanding gene expression changes in health and disease. Differential expression analysis is the most common type of analysis for RNA-seq data.\n\n\n\nThis is a one-day introductory course combining:\n✅ Short presentations for conceptual understanding\n✅ Step-by-step guided exercises in R\n✅ Group discussion and Q&A\n\n\n\nThe material is adapted and simplified from the Carpentries Incubator course\n“RNA-seq Analysis with Bioconductor” (https://carpentries-incubator.github.io/bioc-rnaseq/).\n\n\n\nThis work is licensed under the Creative Commons Attribution 4.0 International License (CC-BY 4.0).\nYou are free to:\n- Share — copy and redistribute the material in any medium or format\n- Adapt — remix, transform, and build upon the material\nUnder the following term: - Attribution — You must give appropriate credit to the original authors and source (this workshop and The Carpentries RNA-seq course), provide a link to the license, and indicate if changes were made.\nFull license text: https://creativecommons.org/licenses/by/4.0/"
+  },
+  {
+    "objectID": "about.html#about-this-workshop",
+    "href": "about.html#about-this-workshop",
+    "title": "About",
+    "section": "",
+    "text": "This workshop was developed for the Young Investigators Symposium of the Skintegrity Network to introduce researchers to bulk RNA-seq data analysis using R and Bioconductor. It focuses on practical understanding and hands-on application of fundamental analysis steps, from data import to differential expression and enrichment analysis.\n\n\nThis workshop is designed for: - Researchers with little or no prior experience in RNA-seq analysis - Students and early-stage postdocs in the biomedical/life sciences - Participants who have basic familiarity with R (e.g., creating variables, loading packages)\n\n\n\nRNA-seq is a powerful tool for understanding gene expression changes in health and disease. Differential expression analysis is the most common type of analysis for RNA-seq data.\n\n\n\nThis is a one-day introductory course combining:\n✅ Short presentations for conceptual understanding\n✅ Step-by-step guided exercises in R\n✅ Group discussion and Q&A\n\n\n\nThe material is adapted and simplified from the Carpentries Incubator course\n“RNA-seq Analysis with Bioconductor” (https://carpentries-incubator.github.io/bioc-rnaseq/).\n\n\n\nThis work is licensed under the Creative Commons Attribution 4.0 International License (CC-BY 4.0).\nYou are free to:\n- Share — copy and redistribute the material in any medium or format\n- Adapt — remix, transform, and build upon the material\nUnder the following term: - Attribution — You must give appropriate credit to the original authors and source (this workshop and The Carpentries RNA-seq course), provide a link to the license, and indicate if changes were made.\nFull license text: https://creativecommons.org/licenses/by/4.0/"
+  },
+  {
+    "objectID": "src/exercises/exercise3_qc.html",
+    "href": "src/exercises/exercise3_qc.html",
+    "title": "Exploratory Data Analysis and Quality Control",
+    "section": "",
+    "text": "Load the SummarizedExperiment object created earlier (skip if it’s still in your environment).\nse &lt;- readRDS(\"../../output/se_cerebellum.rds\")  # adapt path to your folder structure!\nse"
+  },
+  {
+    "objectID": "src/exercises/exercise3_qc.html#gene-filtering",
+    "href": "src/exercises/exercise3_qc.html#gene-filtering",
+    "title": "Exploratory Data Analysis and Quality Control",
+    "section": "Gene Filtering",
+    "text": "Gene Filtering\n\nExercise 1: Remove genes with very low counts across all samples\nkeep &lt;- rowSums(assay(se)) &gt; 5\nse_filt &lt;- se[keep, ]\nnrow(se) \nnrow(se_filt)\nQuestion: How many genes were removed?"
+  },
+  {
+    "objectID": "src/exercises/exercise3_qc.html#normalization",
+    "href": "src/exercises/exercise3_qc.html#normalization",
+    "title": "Exploratory Data Analysis and Quality Control",
+    "section": "Normalization",
+    "text": "Normalization\n\nExercise 2: Transform the data\nCheck the variance across genes with different mean counts. The variance-stabilizing transformation was developed as part of the DESeq2 package to account for this variance-mean relationship. The DESeq2 package uses the DESeqDataSet as underlying object class. The structure is an extension of the SummarizedExperiment class.\nlibrary(DESeq2)\n# Generate the object\ndds &lt;- DESeqDataSet(se_filt, design = ~ 1)\n\n# Plot the mean sd relationship\nmeanSdPlot(assay(dds), ranks = FALSE)\n\n# Transform the data\nvsd &lt;- vst(dds)\n\n# Plot the transformed data\nmeanSdPlot(assay(dds), ranks = FALSE)"
+  },
+  {
+    "objectID": "src/exercises/exercise3_qc.html#data-visualization",
+    "href": "src/exercises/exercise3_qc.html#data-visualization",
+    "title": "Exploratory Data Analysis and Quality Control",
+    "section": "Data Visualization",
+    "text": "Data Visualization\n\nExercise 3: Perform a principal component analysis\npca &lt;- prcomp(t(assay(vsd)))\nplot(pca$x[,1], pca$x[,2],\n     xlab = \"PC1\", ylab = \"PC2\")\ntext(pca$x[,1], pca$x[,2], labels = colnames(vsd), pos = 3)\nQuestion: Do samples cluster by any known variable (e.g., time)?"
+  },
+  {
+    "objectID": "src/exercises/exercise5_enrichment.html",
+    "href": "src/exercises/exercise5_enrichment.html",
+    "title": "Enrichment analysis",
+    "section": "",
+    "text": "Load the results produced in exercise 4 (skip if it’s still in your environment).\nres &lt;- readRDS(\"../../output/de_sex_time.rds\")  # adapt path to your folder structure!"
+  },
+  {
+    "objectID": "src/exercises/exercise5_enrichment.html#de-gene-list",
+    "href": "src/exercises/exercise5_enrichment.html#de-gene-list",
+    "title": "Enrichment analysis",
+    "section": "DE gene list",
+    "text": "DE gene list\n\nExercise 1: Load DE genes for overrepresentation analysis\ngene_list &lt;- rownames(res[which(res$padj &lt; 0.05), ])\nhead(gene_list)\nQuestion: How many significant genes do we have for enrichment?"
+  },
+  {
+    "objectID": "src/exercises/exercise5_enrichment.html#overrepresentation-analysis",
+    "href": "src/exercises/exercise5_enrichment.html#overrepresentation-analysis",
+    "title": "Enrichment analysis",
+    "section": "Overrepresentation Analysis",
+    "text": "Overrepresentation Analysis\n\nExercise 2: Perform GO overrepresentation analysis\nlibrary(clusterProfiler)\nlibrary(org.Mm.eg.db)\n\nego &lt;- enrichGO(gene          = gene_list,\n                OrgDb         = org.Mm.eg.db,\n                keyType       = \"ENTREZID\",\n                ont           = \"BP\",\n                pAdjustMethod = \"BH\",\n                qvalueCutoff  = 0.05)\nego\nQuestion: How many GO terms are significant?"
+  },
+  {
+    "objectID": "src/exercises/exercise5_enrichment.html#visualization",
+    "href": "src/exercises/exercise5_enrichment.html#visualization",
+    "title": "Enrichment analysis",
+    "section": "Visualization",
+    "text": "Visualization\n\nExercise 3: Plot top enriched GO terms\nbarplot(ego, showCategory = 10)"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "RNAseq-workshop exercises",
+    "section": "",
+    "text": "Overview\nThese exercises are part of a one-day bulk RNA-seq data analysis workshop presented at the Young Investigators Symposium of the Skintegrity Network. They provide a hands-on introduction to processing, exploring, and analyzing RNA-seq count data using R and Bioconductor.\nThe content is adapted and simplified from the Carpentries Incubator course\n“RNA-seq Analysis with Bioconductor”\n👉 https://carpentries-incubator.github.io/bioc-rnaseq/\nwhich are highly recommended for further in-depth learning.\nBefore starting, please ensure that all required R and Bioconductor packages are installed using the script provided in src/install.R. Basic familiarity with R (loading libraries, running scripts, inspecting objects) is useful, but not required.\nAcross the exercises, you will:\n\n✅ Load RNA-seq count data\n\n✅ Create Bioconductor data objects\n\n✅ Perform exploratory data analysis and quality control\n\n✅ Run differential expression analysis\n\n✅ Conduct functional enrichment\n\nThese exercises are intentionally short and guided to complement the workshop presentation and group discussions."
+  },
+  {
+    "objectID": "src/exercises/exercise2_data_loading.html",
+    "href": "src/exercises/exercise2_data_loading.html",
+    "title": "Data Loading",
+    "section": "",
+    "text": "In this workshop, we will work with an RNA-seq dataset from the Gene Expression Omnibus (GEO), accession GSE968701. The study examines gene expression in the mouse cerebellum across different developmental time points and biological conditions. The dataset includes a count matrix (raw gene expression values) and sample metadata describing experimental variables such as time and sample ID."
+  },
+  {
+    "objectID": "src/exercises/exercise2_data_loading.html#get-the-dataset",
+    "href": "src/exercises/exercise2_data_loading.html#get-the-dataset",
+    "title": "Data Loading",
+    "section": "Get the Dataset",
+    "text": "Get the Dataset\nWith the GEOquery package public datasets from GEO can directly be downloaded and loaded as R object (option A) or the counts and metadata files can be downloaded to generate a SummarizedExperiment object from them (option B). Chose only one of the options, but try to answer all questions.\n\nExercise 1 (option A): Download the dataset from GEO\nlibrary(GEOquery)\ngse &lt;- getGEO(\"GSE96870\", GSEMatrix = TRUE)\nse\n\n\nExercise 2 (option B): Load the data from csv\nAlternatively the data can be downloaded original workshop and read into R. Adapt the path to your file structure!\ndownload.file(\n    url = \"https://github.com/carpentries-incubator/bioc-rnaseq/raw/main/episodes/data/GSE96870_coldata_cerebellum.csv\", \n    destfile = \"../../data/GSE96870_coldata_cerebellum.csv\"\n)\n\ndownload.file(\n    url = \"https://github.com/carpentries-incubator/bioc-rnaseq/raw/main/episodes/data/GSE96870_coldata_all.csv\", \n    destfile = \"../../data/GSE96870_coldata_all.csv\"\n)\n\ncounts &lt;- read.csv(\"../../data/GSE96870_counts_cerebellum.csv\", row.names = 1)\ncoldata &lt;- read.csv(\"../../data/GSE96870_coldata_cerebellum.csv\", row.names = 1)\n\ndim(counts)\ndim(coldata)\nQuestion: How many genes and samples are there?"
+  },
+  {
+    "objectID": "src/exercises/exercise2_data_loading.html#build-the-r-object",
+    "href": "src/exercises/exercise2_data_loading.html#build-the-r-object",
+    "title": "Data Loading",
+    "section": "Build the R object",
+    "text": "Build the R object\n\nExercise 3 (option B): Create a SummarizedExperiment object\nlibrary(SummarizedExperiment)\n\nse &lt;- SummarizedExperiment(\n  assays = list(counts = as.matrix(counts)),\n  colData = coldata\n)\nse\nQuestion: What metadata are available? How many samples are from male mice?\n\n\nExercise 4 (optional): Add gene symbols\nlibrary(org.Mm.eg.db)\nlibrary(AnnotationDbi)\n\nrowData(se)$symbol &lt;- mapIds(\n  org.Mm.eg.db,\n  keys = rownames(se),\n  column = \"SYMBOL\",\n  keytype = \"ENTREZID\",\n  multiVals = \"first\"\n)\n\nhead(rowData(se))\nQuestion: Why are some symbols missing (NA)?"
+  },
+  {
+    "objectID": "src/exercises/exercise2_data_loading.html#explore-the-data",
+    "href": "src/exercises/exercise2_data_loading.html#explore-the-data",
+    "title": "Data Loading",
+    "section": "Explore the data",
+    "text": "Explore the data\n\nExercise 5: Inspect object\nnrow(se)   # number of genes\nncol(se)   # number of samples\n\ncolData(se)\nassay(se)[1:5, 1:5]\n\ntable(se$sex)\nQuestion: How many timepoints does the dataset contain?"
+  },
+  {
+    "objectID": "src/exercises/exercise2_data_loading.html#save-processed-object",
+    "href": "src/exercises/exercise2_data_loading.html#save-processed-object",
+    "title": "Data Loading",
+    "section": "Save Processed Object",
+    "text": "Save Processed Object\n\nExercise 6: Save the se object for use in the next exercise\nsaveRDS(se, file = \"../../output/se_cerebellum.rds\") # Adapt path to your folder structure!!"
+  },
+  {
+    "objectID": "src/exercises/exercise2_data_loading.html#footnotes",
+    "href": "src/exercises/exercise2_data_loading.html#footnotes",
+    "title": "Data Loading",
+    "section": "Footnotes",
+    "text": "Footnotes\n\n\nBlackmore, Stephen, et al. “Influenza infection triggers disease in a genetic model of experimental autoimmune encephalomyelitis.” Proceedings of the National Academy of Sciences 114.30 (2017): E6107-E6116.↩︎"
+  },
+  {
+    "objectID": "src/exercises/exercise4_de.html",
+    "href": "src/exercises/exercise4_de.html",
+    "title": "Differential Expression Analysis",
+    "section": "",
+    "text": "Load the SummarizedExperiment object created earlier (skip if it’s still in your environment).\nse &lt;- readRDS(\"../../output/se_cerebellum.rds\")  # adapt path to your folder structure!\nse &lt;- se[rowSums(assay(se, \"counts\")) &gt; 5, ]\nse"
+  },
+  {
+    "objectID": "src/exercises/exercise4_de.html#the-experimental-design",
+    "href": "src/exercises/exercise4_de.html#the-experimental-design",
+    "title": "Differential Expression Analysis",
+    "section": "The experimental design",
+    "text": "The experimental design\n\nExercise 1: Create the DESeqDataSet object and define the experiment\nThe DESeqDataSet object has a design parameter to specify what conditions shall be compared.\ndds &lt;- DESeqDataSet(se, design = ~ sex + time)\nQuestion: How can you interpret this design formula? What is compared here?"
+  },
+  {
+    "objectID": "src/exercises/exercise4_de.html#differential-expression-analysis",
+    "href": "src/exercises/exercise4_de.html#differential-expression-analysis",
+    "title": "Differential Expression Analysis",
+    "section": "Differential expression analysis",
+    "text": "Differential expression analysis\n\nExercise 2: Run the DESeq pipeline\nNote: This step estimates size factors, dispersions, and fits the model.\ndds &lt;- DESeq(dds)"
+  },
+  {
+    "objectID": "src/exercises/exercise4_de.html#results",
+    "href": "src/exercises/exercise4_de.html#results",
+    "title": "Differential Expression Analysis",
+    "section": "Results",
+    "text": "Results\n\nExercise 3: Extract results for the comparison\nres &lt;- results(dds)\nsummary(res)\nQuestion: How many genes are significantly differentially expressed (padj &lt; 0.05)?"
+  },
+  {
+    "objectID": "src/exercises/exercise4_de.html#top-de-genes",
+    "href": "src/exercises/exercise4_de.html#top-de-genes",
+    "title": "Differential Expression Analysis",
+    "section": "Top DE genes",
+    "text": "Top DE genes\n\nExercise 4: View the top differentially expressed genes.\nhead(res[order(res$padj), ])\nQuestion: Which gene has the smallest adjusted p-value?"
+  },
+  {
+    "objectID": "src/exercises/exercise4_de.html#visualization",
+    "href": "src/exercises/exercise4_de.html#visualization",
+    "title": "Differential Expression Analysis",
+    "section": "Visualization",
+    "text": "Visualization\n\nExercise 5: Create a basic volcano plot\nplot(res$log2FoldChange, -log10(res$padj),\n     xlab = \"Log2 Fold Change\", ylab = \"-Log10 adj p-value\")"
+  },
+  {
+    "objectID": "src/exercises/exercise4_de.html#save-processed-object",
+    "href": "src/exercises/exercise4_de.html#save-processed-object",
+    "title": "Differential Expression Analysis",
+    "section": "Save Processed Object",
+    "text": "Save Processed Object\n\nExercise 6: Save the results for enricment analysis\nsaveRDS(res, file = \"../../output/de_sex_time.rds\") # Adapt path to your folder structure!!"
+  },
+  {
+    "objectID": "src/exercises/exercise1_R_basics.html",
+    "href": "src/exercises/exercise1_R_basics.html",
+    "title": "R Basics Exercises",
+    "section": "",
+    "text": "This section introduces essential R skills needed for the RNA-seq workshop. Explanations will be covered in the presentation; here we focus on practical steps."
+  },
+  {
+    "objectID": "src/exercises/exercise1_R_basics.html#r-and-rstudio",
+    "href": "src/exercises/exercise1_R_basics.html#r-and-rstudio",
+    "title": "R Basics Exercises",
+    "section": "R and RStudio",
+    "text": "R and RStudio\n\nExercise 1: Open a project\nOpen RStudio and create a new R Project in a folder called rnaseq_workshop.\n\n\nExercise 2: Try the Console\nIn the Console, type:\n2 + 5\n\"Hello, RNAseq!\"\n\n\nExercise 3: Create and run a script\n\nCreate a new R script called intro.R.\nAdd the following code:\n\n# My first script\n3 * 4\n\nRun the line using Ctrl/Cmd + Enter."
+  },
+  {
+    "objectID": "src/exercises/exercise1_R_basics.html#objects-and-classes",
+    "href": "src/exercises/exercise1_R_basics.html#objects-and-classes",
+    "title": "R Basics Exercises",
+    "section": "Objects and Classes",
+    "text": "Objects and Classes\n\nExercise 4: Create some basic objects\ngenes &lt;- 20000\nsample_name &lt;- \"Sample1\"\nis_control &lt;- TRUE\n\n\nExercise 5: Check object classes\nclass(genes)\nclass(sample_name)\nclass(is_control)\n\n\nExercise 6: Create and explore a vector\ncounts &lt;- c(10, 50, 200, 0)\nlength(counts)"
+  },
+  {
+    "objectID": "src/exercises/exercise1_R_basics.html#bioconductor",
+    "href": "src/exercises/exercise1_R_basics.html#bioconductor",
+    "title": "R Basics Exercises",
+    "section": "Bioconductor",
+    "text": "Bioconductor\n\nExercise 7: Load the package\nlibrary(SummarizedExperiment)\n\n\nExercise 8: Load example dataset\nThe package come with some example data, that can be loaded using the example() function.\nexample(SE)\n\n\nExercise 9: Explore the object\nYou can use the following functions to access different parts of the object. Try to answer the following questions: 1. What does the output represent? 2. What is the advantage of combining these different parts of the data (e.g. metadata, count data)? 3. [BONUS] How can you downsample the object to the first 10 features? Check the vignette or ask a LLM, if you need help.\nse\nassay(se)\ncolData(se)\nrowData(se)\n\n\nExercise 10: Determine dataset size\ndim(se)      # rows = genes/features, cols = samples\nnrow(se)     # number of rows (features)\nncol(se)     # number of columns (samples)"
+  }
+]

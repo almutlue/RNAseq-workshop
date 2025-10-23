@@ -1,0 +1,75 @@
+---
+title: "Differential Expression Analysis"
+format: html
+editor: visual
+execute:
+  eval: false
+---
+
+### Exercise 0: Load Existing Data Object
+
+Load the `SummarizedExperiment` object created earlier (skip if it's still in your environment).
+
+```r
+se <- readRDS("../../output/se_cerebellum.rds")  # adapt path to your folder structure!
+se <- se[rowSums(assay(se, "counts")) > 5, ]
+se
+```
+
+## The experimental `design`
+
+### Exercise 1: Create the `DESeqDataSet` object and define the experiment
+The `DESeqDataSet` object has a `design` parameter to specify what conditions shall be compared.
+
+```r
+dds <- DESeqDataSet(se, design = ~ sex + time)
+```
+__Question__: How can you interpret this design formula? What is compared here? 
+
+
+## Differential expression analysis
+
+### Exercise 2: Run the DESeq pipeline
+*Note*: This step estimates size factors, dispersions, and fits the model.
+
+```r
+dds <- DESeq(dds)
+```
+
+## Results
+
+### Exercise 3: Extract results for the comparison
+
+```r
+res <- results(dds)
+summary(res)
+```
+__Question__: How many genes are significantly differentially expressed (padj < 0.05)?
+
+## Top DE genes
+
+### Exercise 4: View the top differentially expressed genes.
+
+```r
+head(res[order(res$padj), ])
+
+```
+__Question__: Which gene has the smallest adjusted p-value?
+
+## Visualization
+
+### Exercise 5: Create a basic volcano plot
+
+```r
+plot(res$log2FoldChange, -log10(res$padj),
+     xlab = "Log2 Fold Change", ylab = "-Log10 adj p-value")
+```
+
+## Save Processed Object
+
+### Exercise 6: Save the results for enricment analysis
+
+```r
+saveRDS(res, file = "../../output/de_sex_time.rds") # Adapt path to your folder structure!!
+
+```

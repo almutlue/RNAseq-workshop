@@ -1,0 +1,46 @@
+---
+title: "About"
+---
+
+## About This Workshop
+
+This workshop was developed for the **Young Investigators Symposium of the Skintegrity Network** to introduce researchers to bulk RNA-seq data analysis using R and Bioconductor. It focuses on practical understanding and hands-on application of fundamental analysis steps, from data import to differential expression and enrichment analysis.
+
+### 🎯 Who is it for?
+
+This workshop is designed for:
+- Researchers with little or no prior experience in RNA-seq analysis
+- Students and early-stage postdocs in the biomedical/life sciences
+- Participants who have basic familiarity with R (e.g., creating variables, loading packages)
+
+### 🧬 Scientific context
+
+RNA-seq is a powerful tool for understanding gene expression changes in health and disease. Differential expression analysis is the most common type of analysis for RNA-seq data.
+
+### 🏗️ Workshop format
+
+This is a one-day introductory course combining:  
+✅ Short presentations for conceptual understanding  
+✅ Step-by-step guided exercises in R  
+✅ Group discussion and Q&A
+
+### 📚 Acknowledgements
+
+The material is **adapted and simplified** from the *Carpentries Incubator course*  
+**“RNA-seq Analysis with Bioconductor”** (https://carpentries-incubator.github.io/bioc-rnaseq/).
+
+
+### 📄 License
+
+This work is licensed under the **Creative Commons Attribution 4.0 International License (CC-BY 4.0)**.
+
+You are free to:  
+- **Share** — copy and redistribute the material in any medium or format  
+- **Adapt** — remix, transform, and build upon the material  
+
+Under the following term:
+- **Attribution** — You must give appropriate credit to the original authors and source (this workshop and The Carpentries RNA-seq course), provide a link to the license, and indicate if changes were made.
+
+Full license text: https://creativecommons.org/licenses/by/4.0/
+
+
