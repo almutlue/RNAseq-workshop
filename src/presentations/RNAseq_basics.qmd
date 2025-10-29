@@ -1,6 +1,6 @@
 ---
-title: "Introduction to RNAseq"
-subtitle: ""
+title: "Introduction to RNA-Seq"
+subtitle: "From sequencing to count table"
 format:
   revealjs: 
     slide-number: true
@@ -9,4 +9,9 @@ format:
     preview-links: auto
     css: styles.css
 ---
+
+## The Central Dogma of Molecular Biology
+
+![](img/centralDogma.png){.absolute top="170" left="30" width="900" height="600"}
+
 
