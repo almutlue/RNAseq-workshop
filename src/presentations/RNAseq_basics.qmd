@@ -1,0 +1,12 @@
+---
+title: "Introduction to RNAseq"
+subtitle: ""
+format:
+  revealjs: 
+    slide-number: true
+    chalkboard: 
+      buttons: false
+    preview-links: auto
+    css: styles.css
+---
+
