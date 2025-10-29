@@ -194,5 +194,19 @@
     "title": "R Basics Exercises",
     "section": "Bioconductor",
     "text": "Bioconductor\n\nExercise 7: Load the package\nlibrary(SummarizedExperiment)\n\n\nExercise 8: Load example dataset\nThe package come with some example data, that can be loaded using the example() function.\nexample(SE)\n\n\nExercise 9: Explore the object\nYou can use the following functions to access different parts of the object. Try to answer the following questions: 1. What does the output represent? 2. What is the advantage of combining these different parts of the data (e.g. metadata, count data)? 3. [BONUS] How can you downsample the object to the first 10 features? Check the vignette or ask a LLM, if you need help.\nse\nassay(se)\ncolData(se)\nrowData(se)\n\n\nExercise 10: Determine dataset size\ndim(se)      # rows = genes/features, cols = samples\nnrow(se)     # number of rows (features)\nncol(se)     # number of columns (samples)"
+  },
+  {
+    "objectID": "src/presentation/R_basics.html#what-is-r",
+    "href": "src/presentation/R_basics.html#what-is-r",
+    "title": "R Basics",
+    "section": "What is R?",
+    "text": "What is R?\nThis presentation will show you examples of what you can do with Quarto and Reveal.js, including:\n\nPresenting code and LaTeX equations\nIncluding computations in slide output\nImage, video, and iframe backgrounds\nFancy transitions and animations\nActivating scroll view\n\n…and much more"
+  },
+  {
+    "objectID": "src/presentation/R_basics.html#language-vs.-tooling",
+    "href": "src/presentation/R_basics.html#language-vs.-tooling",
+    "title": "R Basics",
+    "section": "Language vs. Tooling",
+    "text": "Language vs. Tooling\n\n\nWhat is R?\n\nProgramming Language\nStatistics\nGraphics\n\n\n\nAnd RStudio?\n\nIntegrated Development Environment (IDE)\nDevelopment interface with:\n\nObject viewer\nGraphics preview\n…"
   }
 ]
