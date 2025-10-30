@@ -14,4 +14,13 @@ format:
 
 ![](img/centralDogma.png){.absolute top="170" left="30" width="900" height="600"}
 
+## The Reality is more complex ...
+::: incremental
+-   RNA is not only a messenger but may have other roles
+-   most of these elements interacts and regulates one-another
+-   Additional layer of complexity through alternative splicing
+:::
 
+. . .
+
+<br/> mRNA levels = a proxy of a proxy of cell physiology
