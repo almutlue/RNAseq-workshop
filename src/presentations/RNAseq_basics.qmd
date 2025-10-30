@@ -12,15 +12,48 @@ format:
 
 ## The Central Dogma of Molecular Biology
 
-![](img/centralDogma.png){.absolute top="170" left="30" width="900" height="600"}
+![](img/centralDogma.png){.absolute top="170" left="30" width="820" height="500"}
 
 ## The Reality is more complex ...
 ::: incremental
 -   RNA is not only a messenger but may have other roles
--   most of these elements interacts and regulates one-another
+-   Most of these elements interacts and regulates one-another
 -   Additional layer of complexity through alternative splicing
 :::
 
 . . .
 
-<br/> mRNA levels = a proxy of a proxy of cell physiology
+::: columns
+::: {.column width="50%"}
+![](img/centralDogma.png){.absolute top="320" left="30" width="450" height="300"}
+:::
+::: {.column width="50%"}
+::: {.fragment .highlight-red}
+mRNA levels: a proxy of a proxy of cell physiology
+:::
+:::
+:::
+
+## What are we sequencing?
+#### Genomics
+- Whole genome/exome sequencing (WGS/WES)
+- Variant calling (SNPs, CNVs, structural variations)
+
+#### Epigenomics
+- Bisulphite sequencing : DNA methylation
+- ATAC-Seq : chromatine opening
+- ChIP-seq : TF binding sites
+
+## What are we sequencing?
+#### Transcriptomics
+- Total RNA
+- Poly-A tail selection : focus on mRNA
+- Ribo depletion: mRNA + ncRNA
+- 5'/3' RACE seq : isoform characterization for one gene
+- scRNAseq
+- Long read RNA sequencing
+- Spatial Transcriptomics
+
+many more ...
+
+## Single cell versus bulk RNA-Seq
