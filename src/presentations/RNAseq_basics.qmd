@@ -29,7 +29,7 @@ format:
 :::
 ::: {.column width="50%"}
 ::: {.fragment .highlight-red}
-mRNA levels: a proxy of a proxy of cell physiology
+mRNA levels → a proxy of a proxy of cell physiology
 :::
 :::
 :::
@@ -44,16 +44,86 @@ mRNA levels: a proxy of a proxy of cell physiology
 - ATAC-Seq : chromatine opening
 - ChIP-seq : TF binding sites
 
-## What are we sequencing?
+## What are we sequencing? {.scrollable}
 #### Transcriptomics
 - Total RNA
 - Poly-A tail selection : focus on mRNA
 - Ribo depletion: mRNA + ncRNA
 - 5'/3' RACE seq : isoform characterization for one gene
-- scRNAseq
+- single cell RNAseq
 - Long read RNA sequencing
 - Spatial Transcriptomics
 
 many more ...
 
-## Single cell versus bulk RNA-Seq
+## Single cell versus bulk RNA-Seq {.smaller}
+
+![](img/sc_vs_bulk.jpg){.border}
+
+Zhu et al. J Transl Med 2024
+
+
+## Why bulk RNA-seq still matters in the era of single cell RNA-seq
+
+. . .
+
+<br/> Cost-effectiveness and Scalability
+
+::: incremental
+- Bulk RNA-seq is orders of magnitude cheaper
+- Enables large cohorts (hundreds–thousands of samples)
+- Essential for population-level or clinical studies
+:::
+
+## Why bulk RNA-seq still matters in the era of single cell RNA-seq
+
+. . .
+
+<br/> Higher Data Quality per Gene
+
+::: incremental
+- Deeper sequencing per transcript → better quantification
+- Less technical noise, no dropouts
+- More reliable differential expression results
+:::
+
+## Why bulk RNA-seq still matters in the era of single cell RNA-seq
+
+. . .
+
+<br/> Simplicity and Robustness
+
+::: incremental
+- Well-established workflows and QC pipelines
+- Works with degraded/frozen tissues (recent scRNAseq techniques as well)
+- More robust against batch effects
+- Relative high reproducibility across labs
+:::
+
+## Why bulk RNA-seq still matters in the era of single cell RNA-seq
+
+. . .
+
+<br/> Biological Interpretability
+
+::: incremental
+- Average expression is often the relevant measure for tissue-level processes
+- Examples: Treatment effects on cell line, Developmental stages, Systemic disease states
+:::
+
+## Workflow
+
+## File formats
+
+## Mapping
+
+## Reference
+
+## Alignment vs Pseudo-alignment
+
+## Trimming
+
+## QC
+
+## Count table (TPM etc)
+
