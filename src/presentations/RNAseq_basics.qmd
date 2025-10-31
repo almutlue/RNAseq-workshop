@@ -1,6 +1,6 @@
 ---
 title: "Introduction to RNA-Seq"
-subtitle: "From sequencing to count table"
+subtitle: "From Experiment to Count Table"
 format:
   revealjs: 
     slide-number: true
@@ -60,8 +60,9 @@ many more ...
 
 ![](img/sc_vs_bulk.jpg){.border}
 
+::: footer
 Zhu et al. J Transl Med 2024
-
+:::
 
 ## Why bulk RNA-seq still matters in the era of single cell RNA-seq
 
@@ -111,19 +112,136 @@ Zhu et al. J Transl Med 2024
 - Examples: Treatment effects on cell line, Developmental stages, Systemic disease states
 :::
 
-## Workflow
+## RNAseq data generation - planning your experiment 
 
-## File formats
+::: columns
+::: {.column width="40%"}
 
-## Mapping
+How many replicates?
 
-## Reference
+- Technical: same RNA extract
+- Biological: same biological condition
 
-## Alignment vs Pseudo-alignment
+Sequencing depth?
+
+RNA purification?
+
+:::
+
+::: {.column width="50%"}
+![](img/lab_workflow.png){.absolute top="100" left="500" width="480" height="600"}
+:::
+:::
+
+## Biological Replicates
+
+::: columns
+::: {.column width="50%"}
+![](img/biological_rep_FDR.png)
+:::
+
+::: {.column width="50%"}
+![](img/biological_rep_TPR.png)
+:::
+:::
+
+::: footer
+Soneson, C., et al. BMC Bioinformatics 14, 91 (2013)
+:::
+
+## Sequencing Depth
+
+::: columns
+::: {.column width="40%"}
+- For DGE analysis: usually aim for 30-40 million reads
+- Rare events require a much higher sequencing depths
+- often hard to know in advance
+:::
+
+::: {.column width="8%"}
+:::
+
+::: {.column width="50%"}
+![](img/seq_depth.png)
+:::
+:::
+
+## Data Limitations: Sequencing Biases
+- Fragment length: longer fragments are more likely to be identified
+- Positional bias: 3' ends are more likely to be sequenced
+- Fragment sequence bias: Sequence complexity and GC content influence primer binding
+
+![](img/biases.png){.absolute top="390" left="30" width="1200" height="270"}
+
+## Basic Data analysis Pipeline
+![](img/analysis_workflow.png)
+
+## Input data 
+. . . 
+
+Raw data - FASTQ (.fq/.fastq)
+
+::: incremental
+- contains raw sequencing reads plus quality scores
+:::
+
+. . .
+
+Reference - FASTA (.fa/.fasta)
+
+::: incremental
+- contains nucleotide sequences
+:::
+
+. . .
+
+Annotation file - GTF/GFF (.gff/.gtf)
+
+::: incremental
+- contains genomic coordinates and features (e.g. genes, exon, ..)
+:::
+
+## Preprocessing
+![](img/analysis_wf_sub1.png)
+
+## Quality Control
+. . .
+
+Aim: Identify potential quality issues before analysis
+
+. . .
+
+Tools: FastQC, MultiQC
+
+![](img/fastqc_summary.png)
+
+## Quality Control
+
+::: columns
+::: {.column width="50%"}
+Key Metrics
+
+- Per-base quality scores
+- GC content distribution
+- Sequence length distribution 
+- Overrepresented sequences
+:::
+::: {.column width="50%"}
+![](img/fastqc_pbq.png)
+:::
+:::
 
 ## Trimming
 
-## QC
+## Read Alignment
+![](img/analysis_wf_sub2.png)
+
+## Alignment vs Pseudo-alignment
+
+## Expression Quantification and Normalization
+![](img/analysis_wf_sub3.png)
 
 ## Count table (TPM etc)
 
+## Downstream Analysis
+![](img/analysis_workflow.png)
