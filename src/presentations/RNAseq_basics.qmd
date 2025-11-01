@@ -78,8 +78,6 @@ Zhu et al. J Transl Med 2024
 
 ## Why bulk RNA-seq still matters in the era of single cell RNA-seq
 
-. . .
-
 <br/> Higher Data Quality per Gene
 
 ::: incremental
@@ -90,20 +88,15 @@ Zhu et al. J Transl Med 2024
 
 ## Why bulk RNA-seq still matters in the era of single cell RNA-seq
 
-. . .
-
 <br/> Simplicity and Robustness
 
 ::: incremental
 - Well-established workflows and QC pipelines
 - Works with degraded/frozen tissues (recent scRNAseq techniques as well)
-- More robust against batch effects
 - Relative high reproducibility across labs
 :::
 
 ## Why bulk RNA-seq still matters in the era of single cell RNA-seq
-
-. . .
 
 <br/> Biological Interpretability
 
@@ -117,15 +110,13 @@ Zhu et al. J Transl Med 2024
 ::: columns
 ::: {.column width="40%"}
 
-How many replicates?
-
+::: incremental
+- How many replicates?
 - Technical: same RNA extract
 - Biological: same biological condition
-
-Sequencing depth?
-
-RNA purification?
-
+- Sequencing depth?
+- RNA purification?
+:::
 :::
 
 ::: {.column width="50%"}
@@ -153,9 +144,13 @@ Soneson, C., et al. BMC Bioinformatics 14, 91 (2013)
 
 ::: columns
 ::: {.column width="40%"}
+
+::: incremental
+
 - For DGE analysis: usually aim for 30-40 million reads
 - Rare events require a much higher sequencing depths
 - often hard to know in advance
+:::
 :::
 
 ::: {.column width="8%"}
@@ -167,14 +162,18 @@ Soneson, C., et al. BMC Bioinformatics 14, 91 (2013)
 :::
 
 ## Data Limitations: Sequencing Biases
+
+::: incremental
+
 - Fragment length: longer fragments are more likely to be identified
 - Positional bias: 3' ends are more likely to be sequenced
 - Fragment sequence bias: Sequence complexity and GC content influence primer binding
+:::
 
 ![](img/biases.png){.absolute top="390" left="30" width="1200" height="270"}
 
 ## Basic Data analysis Pipeline
-![](img/analysis_workflow.png)
+![](img/analysis_wf.png)
 
 ## Input data 
 . . . 
@@ -232,16 +231,95 @@ Key Metrics
 :::
 
 ## Trimming
+. . .
 
-## Read Alignment
-![](img/analysis_wf_sub2.png)
+Aim: Removal of adapter sequences and low-quality regions
 
-## Alignment vs Pseudo-alignment
+. . .
 
-## Expression Quantification and Normalization
-![](img/analysis_wf_sub3.png)
+Tools: Trimmomatic, Cutadaptt, fastp
 
-## Count table (TPM etc)
+![](img/trimming_QC.png)
+
+## Trimming
+
+Caution: Aggressive trimming (high quality threshold, low length filtering) can have negative impacts on expression quantification (William et al. BMC bioinfo, 2016)
+
+. . . 
+
+When should we trim?
+
+::: incremental
+
+- Variant calling: highly recommended
+- Expression quantification: no or light trimming
+- Transcriptome asssembly: highly recommended
+:::
+
+
+## Read Alignment and Quantification
+![](img/analysis_wf.png)
+
+## Read Alignment and Quantification
+
+Aim: Map each read base-by-base to reference genome/transcriptome and count assigned reads
+
+. . .
+
+Mapping Tools: STAR, HISAT2, Bowtie2, BWA, ... (many more)
+
+. . .
+
+Quantification tools: featureCounts, HTSeq-count
+
+
+## Choosing a reference: Genome vs Transcriptome
+. . .
+
+Genome reference:
+
+::: incremental
+- Whole genome including splicing junctions
+- Use Case: Novel transcript discovery, variant calling
+:::
+
+. . .
+
+Transcriptome reference:
+
+::: incremental
+- Set of known transcripts (exons only)
+- Use Case: Fast quantification in well-annotated species
+:::
+
+## Pseudoalignment
+
+::: incremental
+- Reads are assigned to transcripts probabilitically
+- Much faster; no full alignment
+- Tools: Salmon, Kallisto
+:::
+
+![](img/analysis_wf_pseudo.png)
+
+
+## Read Normalization
+. . .
+
+Aim: Adjust for sequencing depth and gene length
+
+. . .
+
+Methods:
+
+::: incremental
+- TPM: Within-sample normalization
+- FPKM/RPKM: less used today
+:::
+
+. . .
+
+Important: Some tools for DE analysis (DESeq2, edgeR) have their own normalization implemented
 
 ## Downstream Analysis
-![](img/analysis_workflow.png)
+![](img/analysis_wf_final.png)
