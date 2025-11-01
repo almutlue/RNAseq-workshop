@@ -20,32 +20,224 @@ format:
 
 :::: {.columns}
 
-::: {.column width="50%"}
+::: {.column width="65%"}
 ### What is R?
 
 - Programming Language
 - Statistics
 - Graphics
 
-![](img/R-logo.png)
-
+![](img/r.svg)
 
 :::
 
-::: {.column width="50%"}
-### And RStudio?
+::: {.column width="35%"}
 
-- Integrated Development Environment (IDE) 
-- Development interface with: 
-  + Object viewer
-  + Graphics preview
-  + ...
-![](img/rstudio_logo.png)
+![](img/R_comm.svg)
 
 :::
 
 ::::
 
+## Language vs. Tooling {.smaller}
+
+:::: {.columns}
+
+::: {.column width="65%"}
+### And RStudio?
+
+- Integrated Development Environment (IDE) 
+- Development interface with:
+  + Editor 
+  + Object viewer
+  + Graphics preview
+  + File browser
+  + Many more
+
+![](img/rstudio.svg){height="100"}
+
+:::
+
+::: {.column width="35%"}
+
+
+![](img/phone.svg)
+
+
+:::
+
+::::
+
+
 ## Running R
 
+```{.shell code-line-numbers="1"}
+R
+R version 4.3.3 (2024-02-29) -- "Angel Food Cake"
+Copyright (C) 2024 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+```
+
+
 ## Running RStudio
+
+:::: {.columns}
+
+::: {.column width="40%"}
+- 4 panes (*views*) 
+  + R terminal
+  + Script editor
+  + Object browser
+  + File browser
+
+:::
+
+::: {.column width="60%"}
+
+![](img/rstudio_interface.png)
+
+:::
+
+::::
+
+::: footer
+image from [hbctrainings - Intro to R ](https://github.com/hbctraining/Training-modules/tree/master/IntroR)
+:::
+
+## R scripts and extenstions {.smaller}
+
+:::: {.columns}
+
+::: {.column width="35%"}
+#### Why?
+- Re-running code
+  + Debugging !
+- Tracking code/execution
+- Sharing code
+
+![](img/robot-question.svg)
+:::
+
+::: {.column width="65%"}
+#### Flavors
+- `.R` 
+  + plain R code (comments can be marked by `#`)
+  + `Rscript my-script.R`
+
+- `.rmd` or `.RMarkdown` 
+  + mix of R code *chunks* __with output__ and markdown (text)
+  + can be compiled (*rendered*) into html or pdf
+
+- `.qmd` 
+  + ☝️ with diverse code chunks (e.g. python)
+:::
+
+::::
+
+## Demo RStudio
+
+![](img/rstudio_interface.png)
+
+## R Basic concepts - Syntax
+
+::: {.nonincremental}
+- `#` starts a comment
+- `<-` is used for variable assignment
+- `=` is used for argument assignment
+:::
+
+### Example
+```r
+# Show some examples
+foo <- c(2,4,5)
+bar <- vec_fun(arg1=foo)
+```
+
+## R Basic concepts - Packages {.smaller}
+
+"Base R" provides you with core functionalities, but most code is shared as R package/library.
+
+Anyone can write an R package and use by themselves or share. Standard ways of distributing packages are [github](https://github.org) or package repositories such as [CRAN](https://cran.r-project.org/) or [Bioconductor](https://www.bioconductor.org/)
+
+![](img/R-packaging.svg)
+
+## Install a package
+<br>
+```{.r code-line-numbers="1-2|4-5|7-8|10-11"}
+# build-in install
+install.packages("BiocManager")
+
+# BiocManager install 
+BiocManager::install("SummarizedExperiment")
+
+# pak package manager
+pak::pkg_install("tibble")
+
+# Load package
+library(DESeq2)
+```
+
+<br>
+❗ Most Bioconductor packages can not be installed via `install.packages()`, but only with `BiocManager` or `pak`. 
+
+
+## Bioconductor
+
+- Ecosytem for bioinformatics R packages (origin in genomics 🧬)
+- Standardized data formats and classes (interoperability)
+- Versioning and testing
+- Documentation and standardized workflows (*vignettes* 📄) 
+
+
+![](img/Bioconductor-serial-compressed.gif)
+
+## `SummarizedExperiment` class 
+
+:::: {.columns}
+
+::: {.column width="50%"}
+
+- __Standardized structure__ (most Bioconductor packages use this or one of its derivatives)
+- Link between __data matrix__ (or matrices) and __metadata__
+- Aims to keeps data and metadata __in sync__ (e.g. keep metadat in order after filtering)
+:::
+
+::: {.column width="50%"}
+
+![](img/sumexp.svg)
+
+:::
+
+::::
+
+## `SummarizedExperiment` example
+<br>
+
+```{.r code-line-numbers="1-4|5-12"}
+library(SummarizedExperiment)
+data(airway, package="airway")
+se <- airway
+se
+class: RangedSummarizedExperiment 
+dim: 200 6 
+metadata(0):
+assays(1): counts
+rownames: NULL
+rowData names(1): feature_id
+colnames(6): A B ... E F
+colData names(1): Treatment
+```

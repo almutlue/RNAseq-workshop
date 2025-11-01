@@ -68,20 +68,24 @@ length(counts)
 library(SummarizedExperiment)
 ```
 
-### Exercise 8: Load example dataset
+### Exercise 8: Load example dataset from airway package
 
-The package come with some example data, that can be loaded using the `example()` function.
+The airway package contains some example RNAseq data that come as `RangedSummarieExperiment` (a derivation of the `SummarizedExperiment` class) object. 
 
 ```r
-example(SE)
+# Load the data
+data(airway, package="airway")
+
+# assign the data to the variable se
+se <- airway
 ```
 
 ### Exercise 9: Explore the object
 
 You can use the following functions to access different parts of the object. Try to answer the following questions:
-1. What does the output represent?
-2. What is the advantage of combining these different parts of the data (e.g. metadata, count data)?
-3. [BONUS] How can you downsample the object to the first 10 features? Check the [vignette](https://bioconductor.org/packages/devel/bioc/vignettes/SummarizedExperiment/inst/doc/SummarizedExperiment.html) or ask a LLM, if you need help. 
+1. What is the advantage of combining these different parts of the data (e.g. metadata, count data)?
+2. How can you downsample the object to the first 10 features? Check the [vignette](https://bioconductor.org/packages/devel/bioc/vignettes/SummarizedExperiment/inst/doc/SummarizedExperiment.html) or ask a LLM, if you need help. 
+3. [BONUS] Can you guess the experimental setup from exploring the object?
 
 ```r
 se
