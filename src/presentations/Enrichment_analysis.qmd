@@ -1,0 +1,67 @@
+---
+title: "Enrichment analysis"
+format:
+  revealjs: 
+    slide-number: true
+    chalkboard: 
+      buttons: false
+    preview-links: auto
+    css: styles.css
+---
+
+## Motivation
+
+::: columns
+::: {.column width="45%"}
+
+::: incremental
+
+- What to do with your list of DE genes?
+- Interpretation can be difficult with many DE genes
+- Are our DE genes enriched for a biological function, pathway, TF regulation?
+:::
+:::
+
+::: {.column width="55%"}
+![](img/volcano.png)
+:::
+:::
+
+## Mapping genes to gene sets with specific biology
+
+. . . 
+
+Regrouping genes together in meaningful sets
+
+::: incremental
+- Same pathway
+- Same location in the cell
+- Same molecular function
+:::
+
+## The universe matters (Almut?)
+
+. . .
+
+Numerous gene set collections available
+
+::: incremental
+- Gene Ontologies
+- Reactome
+- KEGG
+- MSigDB
+- Custom gene sets (literature, tentative annotation)
+- many more ...
+:::
+
+## Computing Enrichment
+
+![](img/enrichmentAnalysis_methods.jpg)
+
+::: footer
+Zhao, K., Rhee Y.R. Trends in Genetics (2023)
+:::
+
+## Overrepresentation analysis
+
+
