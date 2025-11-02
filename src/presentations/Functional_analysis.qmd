@@ -1,0 +1,125 @@
+---
+title: "Functional Analysis"
+subtitle: "From Raw Counts to Differentially Expressed Genes"
+format:
+  revealjs: 
+    slide-number: true
+    chalkboard: 
+      buttons: false
+    preview-links: auto
+    logo: img/eda.svg
+    css: styles.css
+    incremental: true
+---
+
+## Preprocessing {.smaller}
+
+### Why?
+- Sequencing depth varies across libraries
+- High dynamic range of expression
+- High number of genes vs low number of samples
+
+### What?
+- Filtering of low abundance genes
+- Normalization 
+  + Library size
+  + Gene length
+
+![](img/data-cleaning.svg){.absolute top="250" right="70" height="250"}
+
+## Filtering
+<br>
+
+__Simple__: 
+Keep genes with more than *X* counts
+
+```r
+# Keep genes/rows that have > 5 total counts 
+se <- se[rowSums(assay(se, "counts")) > 5, ]
+```
+<br>
+
+__Advanced__: 
+Keep genes with more than *X* counts in at least *Y* samples
+
+```r
+# Keep genes/rows that have > 3 counts in at least 3 sample
+se[rowSums(assay(se, "counts") > 3) >= 3, ]
+```
+
+## Filtering - Considerations
+
+- __Easier Interpretation__: Not or lowly expressed genes are unlikely to be biological meaningful
+- __More Power__: Filtering reduces the number of statistical tests (multiple testing)
+- __Better Model__: More roboust estimation of mean-variance relationship
+
+::: {.fragment .highlight-red}
+Try different approaches and check the remaining gene number and type.
+:::
+
+## Normalization - Gene Length {.smaller}
+
+
+<br>
+*Making counts comparable across features (genes)*
+<br>
+
+![](img/normalization_methods_length.png){height="500"}
+
+## Normalization - Sequencing Depth {.smaller}
+<br>
+*Making counts comparable across samples*
+<br>
+![](img/normalization_methods_depth.png){height="500"}
+
+
+## Normalization - Approaches {.smaller}
+<br>
+
+::: columns
+::: {.column width="55%"}
+- by library size (using gene length and sequencing depth)
+- by distribution (group genes with similar expression)
+- by testing (identify non-DE genes for normalization)
+- using controls (e.g. spike-ins, house-keepig genes)
+- variance-stabilizing transformation (stable variance across different means)
+:::
+::: {.column width="45%"}
+![](img/normalization_methods_composition.png) 
+:::
+:::
+
+
+## {.smaller}
+
+| Normalization method | Description | Accounted factors | Recommendations for use |
+| :----: | :----: | :----: | :----: |
+| **CPM** (counts per million) | counts scaled by total number of reads | sequencing depth | gene count comparisons between replicates; **NOT for within sample or DE analysis**  |
+| **TPM** (transcripts per kilobase million) | counts per length of transcript (kb) per million reads mapped | sequencing depth and gene length | gene count comparisons within a sample or sample group; **NOT for DE analysis** |
+| **RPKM/FPKM** (reads/fragments per kilobase of exon per million reads/fragments mapped) | similar to TPM | sequencing depth and gene length | gene count comparisons within a sample; **NOT for between sample or DE analysis** |
+
+::: footer
+Table from [hbctraing:Intro-to-DGE](https://hbctraining.github.io/Intro-to-DGE)
+:::
+
+## {.smaller}
+
+| Normalization method | Description | Accounted factors | Recommendations for use |
+| :----: | :----: | :----: | :----: |
+| DESeq2's **median of ratios** [[1](https://genomebiology.biomedcentral.com/articles/10.1186/gb-2010-11-10-r106)] | counts divided by sample-specific size factors determined by median ratio of gene counts relative to geometric mean per gene | sequencing depth and RNA composition | gene count comparisons between samples and for **DE analysis**; **NOT for within sample comparisons** |
+| EdgeR's **trimmed mean of M values (TMM)** [[2](https://genomebiology.biomedcentral.com/articles/10.1186/gb-2010-11-3-r25)] | uses a weighted trimmed mean of the log expression ratios between samples | sequencing depth and RNA composition | gene count comparisons between samples and for **DE analysis**; **NOT for within sample comparisons** |
+
+::: footer
+Table from [hbctraing:Intro-to-DGE](https://hbctraining.github.io/Intro-to-DGE)
+:::
+
+
+## Recommendations
+
+- Under the hood most tools use a mix of different normalisations (e.g. `DESeq2::estimateSizeFactors()`)
+- Standard tools for DGE (DESeq2, edgeR, Limma etc) use __raw counts__
+- For visualisation (PCA, clustering, heatmaps etc), use VST or RLOG
+- For own analysis with gene length correction, use TPM (maybe geTMM?)
+
+
+## Exploratory Data Analysis

@@ -7,7 +7,7 @@ format:
     chalkboard: 
       buttons: false
     preview-links: auto
-    logo: img/R-logo.png
+    logo: img/r.svg
     css: styles.css
     title-slide-attributes:
       data-background-image: img/happy-coder.svg
