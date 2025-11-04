@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Enrichment analysis – RNAseq-workshop</title>
+<title>Single Cell: Differential Expression – RNAseq-workshop</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -224,18 +224,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#exercise-0-load-de-results" id="toc-exercise-0-load-de-results" class="nav-link active" data-scroll-target="#exercise-0-load-de-results">Exercise 0: Load DE results</a></li>
-  <li><a href="#de-gene-list" id="toc-de-gene-list" class="nav-link" data-scroll-target="#de-gene-list">DE gene list</a>
+  <li><a href="#exercise-0-load-the-data-object" id="toc-exercise-0-load-the-data-object" class="nav-link active" data-scroll-target="#exercise-0-load-the-data-object">Exercise 0: Load the Data Object</a></li>
+  <li><a href="#differentially-expressed-genes" id="toc-differentially-expressed-genes" class="nav-link" data-scroll-target="#differentially-expressed-genes">Differentially expressed Genes</a>
   <ul class="collapse">
-  <li><a href="#exercise-1-load-de-genes-for-overrepresentation-analysis" id="toc-exercise-1-load-de-genes-for-overrepresentation-analysis" class="nav-link" data-scroll-target="#exercise-1-load-de-genes-for-overrepresentation-analysis">Exercise 1: Load DE genes for overrepresentation analysis</a></li>
-  </ul></li>
-  <li><a href="#overrepresentation-analysis" id="toc-overrepresentation-analysis" class="nav-link" data-scroll-target="#overrepresentation-analysis">Overrepresentation Analysis</a>
-  <ul class="collapse">
-  <li><a href="#exercise-2-perform-go-overrepresentation-analysis" id="toc-exercise-2-perform-go-overrepresentation-analysis" class="nav-link" data-scroll-target="#exercise-2-perform-go-overrepresentation-analysis">Exercise 2: Perform GO overrepresentation analysis</a></li>
-  </ul></li>
-  <li><a href="#visualization" id="toc-visualization" class="nav-link" data-scroll-target="#visualization">Visualization</a>
-  <ul class="collapse">
-  <li><a href="#exercise-3-plot-top-enriched-go-terms" id="toc-exercise-3-plot-top-enriched-go-terms" class="nav-link" data-scroll-target="#exercise-3-plot-top-enriched-go-terms">Exercise 3: Plot top enriched GO terms</a></li>
+  <li><a href="#exercise-1-de-genes-between-cluster-aka-cell-type-marker" id="toc-exercise-1-de-genes-between-cluster-aka-cell-type-marker" class="nav-link" data-scroll-target="#exercise-1-de-genes-between-cluster-aka-cell-type-marker">Exercise 1: DE genes between cluster (aka cell type marker)</a></li>
+  <li><a href="#exercise-2-de-between-conditions" id="toc-exercise-2-de-between-conditions" class="nav-link" data-scroll-target="#exercise-2-de-between-conditions">Exercise 2: DE between conditions</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -245,7 +238,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Enrichment analysis</h1>
+<h1 class="title">Single Cell: Differential Expression</h1>
 </div>
 
 
@@ -262,42 +255,41 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="exercise-0-load-de-results" class="level3">
-<h3 class="anchored" data-anchor-id="exercise-0-load-de-results">Exercise 0: Load DE results</h3>
-<p>Load the results produced in exercise 4 (skip if it’s still in your environment).</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"../../output/de_sex_time.rds"</span>)  <span class="co"># adapt path to your folder structure!</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="exercise-0-load-the-data-object" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-0-load-the-data-object">Exercise 0: Load the Data Object</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(Seurat)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>epi <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"../../output/epithelial_bcc_and_normal_cell_types.rds"</span>) <span class="co"># adapt path to your folder structure!</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>epi</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
-<section id="de-gene-list" class="level2">
-<h2 class="anchored" data-anchor-id="de-gene-list">DE gene list</h2>
-<section id="exercise-1-load-de-genes-for-overrepresentation-analysis" class="level3">
-<h3 class="anchored" data-anchor-id="exercise-1-load-de-genes-for-overrepresentation-analysis">Exercise 1: Load DE genes for overrepresentation analysis</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>gene_list <span class="ot">&lt;-</span> <span class="fu">rownames</span>(res[<span class="fu">which</span>(res<span class="sc">$</span>padj <span class="sc">&lt;</span> <span class="fl">0.05</span>), ])</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(gene_list)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><strong>Question</strong>: How many significant genes do we have for enrichment?</p>
+<section id="differentially-expressed-genes" class="level2">
+<h2 class="anchored" data-anchor-id="differentially-expressed-genes">Differentially expressed Genes</h2>
+<section id="exercise-1-de-genes-between-cluster-aka-cell-type-marker" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-1-de-genes-between-cluster-aka-cell-type-marker">Exercise 1: DE genes between cluster (aka cell type marker)</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>epi <span class="ot">&lt;-</span> Seurat<span class="sc">::</span><span class="fu">SetIdent</span>(epi, <span class="at">value =</span> epi<span class="sc">$</span><span class="st">`</span><span class="at">05_subcelltypes</span><span class="st">`</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>marker <span class="ot">&lt;-</span> Seurat<span class="sc">::</span><span class="fu">FindAllMarkers</span>(epi,  <span class="at">min.pct =</span> <span class="fl">0.25</span>,</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">only.pos =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>top_marker <span class="ot">&lt;-</span> marker <span class="sc">|&gt;</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(cluster) <span class="sc">|&gt;</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">top_n</span>(<span class="dv">1</span>, avg_log2FC)</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="fu">FeaturePlot</span>(epi, <span class="at">features =</span> top_marker<span class="sc">$</span>gene)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Question</strong>: Plot different marker genes, e.g.&nbsp;top 10 marker for a certain cell type. Do the marker genes support cell type assignments as done in the original study?</p>
 </section>
-</section>
-<section id="overrepresentation-analysis" class="level2">
-<h2 class="anchored" data-anchor-id="overrepresentation-analysis">Overrepresentation Analysis</h2>
-<section id="exercise-2-perform-go-overrepresentation-analysis" class="level3">
-<h3 class="anchored" data-anchor-id="exercise-2-perform-go-overrepresentation-analysis">Exercise 2: Perform GO overrepresentation analysis</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(clusterProfiler)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(org.Mm.eg.db)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>ego <span class="ot">&lt;-</span> <span class="fu">enrichGO</span>(<span class="at">gene          =</span> gene_list,</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>                <span class="at">OrgDb         =</span> org.Mm.eg.db,</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>                <span class="at">keyType       =</span> <span class="st">"SYMBOL"</span>,</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>                <span class="at">ont           =</span> <span class="st">"BP"</span>,</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>                <span class="at">pAdjustMethod =</span> <span class="st">"BH"</span>,</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>                <span class="at">qvalueCutoff  =</span> <span class="fl">0.05</span>)</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>ego</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><strong>Question</strong>: How many GO terms are significant?</p>
-</section>
-</section>
-<section id="visualization" class="level2">
-<h2 class="anchored" data-anchor-id="visualization">Visualization</h2>
-<section id="exercise-3-plot-top-enriched-go-terms" class="level3">
-<h3 class="anchored" data-anchor-id="exercise-3-plot-top-enriched-go-terms">Exercise 3: Plot top enriched GO terms</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(ego, <span class="at">showCategory =</span> <span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="exercise-2-de-between-conditions" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-2-de-between-conditions">Exercise 2: DE between conditions</h3>
+<p>Testing for differential expressed genes across conditions within the same cell type.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a metadata column with the origin and cell type info</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>epi<span class="sc">$</span>celltype.origin <span class="ot">&lt;-</span> <span class="fu">paste</span>(epi<span class="sc">$</span><span class="st">`</span><span class="at">05_subcelltypes</span><span class="st">`</span>, epi<span class="sc">$</span>orig.ident, <span class="at">sep =</span> <span class="st">"_"</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">Idents</span>(epi) <span class="ot">&lt;-</span> <span class="st">"celltype.origin"</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate DE genes for one specific cell type and origin</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>de_div_K <span class="ot">&lt;-</span> <span class="fu">FindMarkers</span>(epi, <span class="at">ident.1 =</span> <span class="st">"Dividing K_bcc"</span>, <span class="at">ident.2 =</span> <span class="st">"Dividing K_ife"</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(de_div_K, <span class="at">n =</span> <span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Question</strong>: Explore differential expressed genes for different cell types.<br>
+<strong>Question</strong>: Do you notice something about the p-values?</p>
 
 
 </section>

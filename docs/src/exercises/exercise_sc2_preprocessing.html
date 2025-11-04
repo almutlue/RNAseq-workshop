@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Enrichment analysis – RNAseq-workshop</title>
+<title>Single Cell: Preprocessing and QC – RNAseq-workshop</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -224,18 +224,31 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#exercise-0-load-de-results" id="toc-exercise-0-load-de-results" class="nav-link active" data-scroll-target="#exercise-0-load-de-results">Exercise 0: Load DE results</a></li>
-  <li><a href="#de-gene-list" id="toc-de-gene-list" class="nav-link" data-scroll-target="#de-gene-list">DE gene list</a>
+  <li><a href="#exercise-0-load-the-data-object" id="toc-exercise-0-load-the-data-object" class="nav-link active" data-scroll-target="#exercise-0-load-the-data-object">Exercise 0: Load the Data Object</a></li>
+  <li><a href="#filtering-of-cells" id="toc-filtering-of-cells" class="nav-link" data-scroll-target="#filtering-of-cells">Filtering of Cells</a>
   <ul class="collapse">
-  <li><a href="#exercise-1-load-de-genes-for-overrepresentation-analysis" id="toc-exercise-1-load-de-genes-for-overrepresentation-analysis" class="nav-link" data-scroll-target="#exercise-1-load-de-genes-for-overrepresentation-analysis">Exercise 1: Load DE genes for overrepresentation analysis</a></li>
+  <li><a href="#exercise-1-visualize-different-cell-quality-metrics" id="toc-exercise-1-visualize-different-cell-quality-metrics" class="nav-link" data-scroll-target="#exercise-1-visualize-different-cell-quality-metrics">Exercise 1: Visualize different cell quality metrics</a></li>
   </ul></li>
-  <li><a href="#overrepresentation-analysis" id="toc-overrepresentation-analysis" class="nav-link" data-scroll-target="#overrepresentation-analysis">Overrepresentation Analysis</a>
+  <li><a href="#normalizing-the-data" id="toc-normalizing-the-data" class="nav-link" data-scroll-target="#normalizing-the-data">Normalizing the Data</a>
   <ul class="collapse">
-  <li><a href="#exercise-2-perform-go-overrepresentation-analysis" id="toc-exercise-2-perform-go-overrepresentation-analysis" class="nav-link" data-scroll-target="#exercise-2-perform-go-overrepresentation-analysis">Exercise 2: Perform GO overrepresentation analysis</a></li>
+  <li><a href="#exercise-2-log-normalization" id="toc-exercise-2-log-normalization" class="nav-link" data-scroll-target="#exercise-2-log-normalization">Exercise 2: Log-Normalization</a></li>
   </ul></li>
-  <li><a href="#visualization" id="toc-visualization" class="nav-link" data-scroll-target="#visualization">Visualization</a>
+  <li><a href="#feature-selection" id="toc-feature-selection" class="nav-link" data-scroll-target="#feature-selection">Feature Selection</a>
   <ul class="collapse">
-  <li><a href="#exercise-3-plot-top-enriched-go-terms" id="toc-exercise-3-plot-top-enriched-go-terms" class="nav-link" data-scroll-target="#exercise-3-plot-top-enriched-go-terms">Exercise 3: Plot top enriched GO terms</a></li>
+  <li><a href="#exercise-3-identify-highly-variable-features" id="toc-exercise-3-identify-highly-variable-features" class="nav-link" data-scroll-target="#exercise-3-identify-highly-variable-features">Exercise 3: Identify highly variable features</a></li>
+  </ul></li>
+  <li><a href="#scaling" id="toc-scaling" class="nav-link" data-scroll-target="#scaling">Scaling</a>
+  <ul class="collapse">
+  <li><a href="#exercise-4-scaling-the-data" id="toc-exercise-4-scaling-the-data" class="nav-link" data-scroll-target="#exercise-4-scaling-the-data">Exercise 4: Scaling the data</a></li>
+  </ul></li>
+  <li><a href="#dimensional-reduction" id="toc-dimensional-reduction" class="nav-link" data-scroll-target="#dimensional-reduction">Dimensional Reduction</a>
+  <ul class="collapse">
+  <li><a href="#exercise-5-run-pca-and-examine-the-loadings" id="toc-exercise-5-run-pca-and-examine-the-loadings" class="nav-link" data-scroll-target="#exercise-5-run-pca-and-examine-the-loadings">Exercise 5: Run PCA and examine the loadings</a></li>
+  <li><a href="#exercise-6-perform-a-non-linear-dimensionality-reduction" id="toc-exercise-6-perform-a-non-linear-dimensionality-reduction" class="nav-link" data-scroll-target="#exercise-6-perform-a-non-linear-dimensionality-reduction">Exercise 6: Perform a non-linear dimensionality reduction</a></li>
+  </ul></li>
+  <li><a href="#save-processed-object" id="toc-save-processed-object" class="nav-link" data-scroll-target="#save-processed-object">Save Processed Object</a>
+  <ul class="collapse">
+  <li><a href="#exercise-7-save-the-object-for-use-in-the-next-exercise" id="toc-exercise-7-save-the-object-for-use-in-the-next-exercise" class="nav-link" data-scroll-target="#exercise-7-save-the-object-for-use-in-the-next-exercise">Exercise 7: Save the object for use in the next exercise</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -245,7 +258,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Enrichment analysis</h1>
+<h1 class="title">Single Cell: Preprocessing and QC</h1>
 </div>
 
 
@@ -262,42 +275,92 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="exercise-0-load-de-results" class="level3">
-<h3 class="anchored" data-anchor-id="exercise-0-load-de-results">Exercise 0: Load DE results</h3>
-<p>Load the results produced in exercise 4 (skip if it’s still in your environment).</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"../../output/de_sex_time.rds"</span>)  <span class="co"># adapt path to your folder structure!</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="exercise-0-load-the-data-object" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-0-load-the-data-object">Exercise 0: Load the Data Object</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(Seurat)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>epi <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"data/epithelial_bcc_and_normal_seurat.rds"</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>epi</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
-<section id="de-gene-list" class="level2">
-<h2 class="anchored" data-anchor-id="de-gene-list">DE gene list</h2>
-<section id="exercise-1-load-de-genes-for-overrepresentation-analysis" class="level3">
-<h3 class="anchored" data-anchor-id="exercise-1-load-de-genes-for-overrepresentation-analysis">Exercise 1: Load DE genes for overrepresentation analysis</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>gene_list <span class="ot">&lt;-</span> <span class="fu">rownames</span>(res[<span class="fu">which</span>(res<span class="sc">$</span>padj <span class="sc">&lt;</span> <span class="fl">0.05</span>), ])</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(gene_list)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><strong>Question</strong>: How many significant genes do we have for enrichment?</p>
-</section>
-</section>
-<section id="overrepresentation-analysis" class="level2">
-<h2 class="anchored" data-anchor-id="overrepresentation-analysis">Overrepresentation Analysis</h2>
-<section id="exercise-2-perform-go-overrepresentation-analysis" class="level3">
-<h3 class="anchored" data-anchor-id="exercise-2-perform-go-overrepresentation-analysis">Exercise 2: Perform GO overrepresentation analysis</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(clusterProfiler)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(org.Mm.eg.db)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>ego <span class="ot">&lt;-</span> <span class="fu">enrichGO</span>(<span class="at">gene          =</span> gene_list,</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>                <span class="at">OrgDb         =</span> org.Mm.eg.db,</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>                <span class="at">keyType       =</span> <span class="st">"SYMBOL"</span>,</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>                <span class="at">ont           =</span> <span class="st">"BP"</span>,</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>                <span class="at">pAdjustMethod =</span> <span class="st">"BH"</span>,</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>                <span class="at">qvalueCutoff  =</span> <span class="fl">0.05</span>)</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>ego</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><strong>Question</strong>: How many GO terms are significant?</p>
+<section id="filtering-of-cells" class="level2">
+<h2 class="anchored" data-anchor-id="filtering-of-cells">Filtering of Cells</h2>
+<p>Quality metrics are:</p>
+<ul>
+<li>The number of unique genes detected in each cell.</li>
+<li>Total number of molecules detected within a cell (correlates strongly with unique genes)</li>
+<li>The percentage of reads that map to the mitochondrial genome</li>
+</ul>
+<p>The example object already contains all 3 quality metrics. Seurat automatically does so for the number of unique genes and detected molecules per cell, but usually the mitochondrial genes have to be calculated. Here this can be skipped.</p>
+<section id="exercise-1-visualize-different-cell-quality-metrics" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-1-visualize-different-cell-quality-metrics">Exercise 1: Visualize different cell quality metrics</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># epi[["percent.mt"]] &lt;- PercentageFeatureSet(epi, pattern = "^MT-")</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize QC metrics as a violin plot</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>Seurat<span class="sc">::</span><span class="fu">VlnPlot</span>(epi, <span class="at">features =</span> <span class="fu">c</span>(<span class="st">"nFeature_RNA"</span>, <span class="st">"nCount_RNA"</span>, <span class="st">"percent.mt"</span>), <span class="at">ncol =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Question</strong>: How are the different groups affected by the quality metrics? How does this affect downstream analysis?<br>
+<strong>Question</strong>: Can you explain the sharp cut-off for some metrics and groups, e.g.&nbsp;2500 unique features for the bcc group?</p>
 </section>
 </section>
-<section id="visualization" class="level2">
-<h2 class="anchored" data-anchor-id="visualization">Visualization</h2>
-<section id="exercise-3-plot-top-enriched-go-terms" class="level3">
-<h3 class="anchored" data-anchor-id="exercise-3-plot-top-enriched-go-terms">Exercise 3: Plot top enriched GO terms</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(ego, <span class="at">showCategory =</span> <span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="normalizing-the-data" class="level2">
+<h2 class="anchored" data-anchor-id="normalizing-the-data">Normalizing the Data</h2>
+<section id="exercise-2-log-normalization" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-2-log-normalization">Exercise 2: Log-Normalization</h3>
+<p>This object contains already normalized data. So we don’t have to run normalization again.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>SeuratObject<span class="sc">::</span><span class="fu">Layers</span>(epi)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># epi &lt;- Seurat::NormalizeData(epi)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+</section>
+<section id="feature-selection" class="level2">
+<h2 class="anchored" data-anchor-id="feature-selection">Feature Selection</h2>
+<section id="exercise-3-identify-highly-variable-features" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-3-identify-highly-variable-features">Exercise 3: Identify highly variable features</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>epi <span class="ot">&lt;-</span> Seurat<span class="sc">::</span><span class="fu">FindVariableFeatures</span>(epi,<span class="at">selection.method =</span> <span class="st">"vst"</span>, <span class="at">nfeatures =</span> <span class="dv">2000</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># top10 variable features:</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>top10 <span class="ot">&lt;-</span> <span class="fu">head</span>(Seurat<span class="sc">::</span><span class="fu">VariableFeatures</span>(epi), <span class="dv">10</span>)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co"># plot variable features with and without labels</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>plot1 <span class="ot">&lt;-</span> Seurat<span class="sc">::</span><span class="fu">VariableFeaturePlot</span>(epi)</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>Seurat<span class="sc">::</span><span class="fu">LabelPoints</span>(<span class="at">plot =</span> plot1, <span class="at">points =</span> top10, <span class="at">repel =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Question</strong>: What are the top variable genes? Can you explain the plot?</p>
+</section>
+</section>
+<section id="scaling" class="level2">
+<h2 class="anchored" data-anchor-id="scaling">Scaling</h2>
+<p>The <code>ScaleData()</code>function:</p>
+<ul>
+<li>Shifts the expression of each gene, so that the mean is 0 and variance is 1</li>
+<li>Accounts for mean expression in downstream tasks</li>
+<li>By default, only variable features are scaled</li>
+<li>Can be used to remove unwanted sources of variation (<code>vars.to.regress</code>)</li>
+</ul>
+<section id="exercise-4-scaling-the-data" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-4-scaling-the-data">Exercise 4: Scaling the data</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>epi <span class="ot">&lt;-</span> Seurat<span class="sc">::</span><span class="fu">ScaleData</span>(epi, <span class="at">vars.to.regress =</span> <span class="st">"percent.mt"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+</section>
+<section id="dimensional-reduction" class="level2">
+<h2 class="anchored" data-anchor-id="dimensional-reduction">Dimensional Reduction</h2>
+<section id="exercise-5-run-pca-and-examine-the-loadings" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-5-run-pca-and-examine-the-loadings">Exercise 5: Run PCA and examine the loadings</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>epi <span class="ot">&lt;-</span> Seurat<span class="sc">::</span><span class="fu">RunPCA</span>(epi, <span class="at">features =</span> Seurat<span class="sc">::</span><span class="fu">VariableFeatures</span>(<span class="at">object =</span> epi))</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>Seurat<span class="sc">::</span><span class="fu">VizDimLoadings</span>(epi, <span class="at">dims =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>, <span class="at">reduction =</span> <span class="st">"pca"</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>Seurat<span class="sc">::</span><span class="fu">DimPlot</span>(epi, <span class="at">reduction =</span> <span class="st">"pca"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Question</strong>: Can you explain the cells distribution along the PCA?<br>
+<strong>Question</strong>(BONUS): The object does already contain a PCA embedding called <code>X_pca</code>. Compare the two embeddings? Do you have potential explanations for the differences?</p>
+</section>
+<section id="exercise-6-perform-a-non-linear-dimensionality-reduction" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-6-perform-a-non-linear-dimensionality-reduction">Exercise 6: Perform a non-linear dimensionality reduction</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>epi <span class="ot">&lt;-</span> Seurat<span class="sc">::</span><span class="fu">RunUMAP</span>(epi, <span class="at">dims =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">25</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>Seurat<span class="sc">::</span><span class="fu">DimPlot</span>(epi, <span class="at">reduction =</span> <span class="st">"umap"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Question</strong>: Can you explain the pattern you observe?<br>
+<strong>Question</strong>(BONUS): As above compare with the existing <code>X_umap</code> embedding.</p>
+</section>
+</section>
+<section id="save-processed-object" class="level2">
+<h2 class="anchored" data-anchor-id="save-processed-object">Save Processed Object</h2>
+<section id="exercise-7-save-the-object-for-use-in-the-next-exercise" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-7-save-the-object-for-use-in-the-next-exercise">Exercise 7: Save the object for use in the next exercise</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(epi, <span class="at">file =</span> <span class="st">"../../output/epithelial_bcc_and_normal_preprocessed.rds"</span>) <span class="co"># Adapt path to your folder structure!!</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 
 </section>

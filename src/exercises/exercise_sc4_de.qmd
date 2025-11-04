@@ -1,0 +1,50 @@
+---
+title: "Single Cell: Differential Expression"
+format: html
+execute:
+  eval: false
+---
+
+### Exercise 0: Load the Data Object
+
+```r
+library(Seurat)
+epi <- readRDS("../../output/epithelial_bcc_and_normal_cell_types.rds") # adapt path to your folder structure!
+epi
+```
+
+## Differentially expressed Genes
+
+### Exercise 1: DE genes between cluster (aka cell type marker)
+
+```r
+library(dplyr)
+
+epi <- Seurat::SetIdent(epi, value = epi$`05_subcelltypes`)
+marker <- Seurat::FindAllMarkers(epi,  min.pct = 0.25,
+                                   only.pos = TRUE)
+
+top_marker <- marker |>
+  group_by(cluster) |>
+  top_n(1, avg_log2FC)
+
+FeaturePlot(epi, features = top_marker$gene)
+```
+__Question__: Plot different marker genes, e.g. top 10 marker for a certain cell type. Do the marker genes support cell type assignments as done in the original study?
+
+
+### Exercise 2: DE between conditions
+
+Testing for differential expressed genes across conditions within the same cell type.
+
+```r
+# Create a metadata column with the origin and cell type info
+epi$celltype.origin <- paste(epi$`05_subcelltypes`, epi$orig.ident, sep = "_")
+Idents(epi) <- "celltype.origin"
+
+# Calculate DE genes for one specific cell type and origin
+de_div_K <- FindMarkers(epi, ident.1 = "Dividing K_bcc", ident.2 = "Dividing K_ife", verbose = FALSE)
+head(de_div_K, n = 10)
+```
+__Question__: Explore differential expressed genes for different cell types.  
+__Question__: Do you notice something about the p-values? 

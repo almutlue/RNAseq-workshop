@@ -17,6 +17,22 @@ website:
           - src/exercises/exercise3_qc.qmd
           - src/exercises/exercise4_de.qmd
           - src/exercises/exercise5_enrichment.qmd
+      - text: Single Cell Exercises
+        menu:
+          - src/exercises/exercise_sc1_data_loading.qmd
+          - src/exercises/exercise_sc2_preprocessing.qmd
+          - src/exercises/exercise_sc3_clustering.qmd
+          - src/exercises/exercise_sc4_de.qmd
+      - text: Presentations
+        menu:
+          - href: src/presentations/RNAseq_basics.html
+            text: "RNAseq Basics"
+          - href: src/presentations/R_basics.html
+            text: "R Basics"
+          - href: src/presentations/Functional_analysis.html
+            text: "Functional Analysis"
+          - href: src/presentations/Enrichment_analysis.html
+            text: "Enrichment Analysis"
 
 format:
   html:

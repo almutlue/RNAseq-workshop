@@ -32,8 +32,8 @@ download.file(
 )
 
 download.file(
-    url = "https://github.com/carpentries-incubator/bioc-rnaseq/raw/main/episodes/data/GSE96870_coldata_all.csv", 
-    destfile = "../../data/GSE96870_coldata_all.csv"
+    url = "https://github.com/carpentries-incubator/bioc-rnaseq/raw/main/episodes/data/GSE96870_counts_cerebellum.csv", 
+    destfile = "../../data/GSE96870_counts_cerebellum.csv"
 )
 
 counts <- read.csv("../../data/GSE96870_counts_cerebellum.csv", row.names = 1)
@@ -68,11 +68,11 @@ __Question__: What metadata are available? How many samples are from male mice?
 library(org.Mm.eg.db)
 library(AnnotationDbi)
 
-rowData(se)$symbol <- mapIds(
+rowData(se)$ENTREZID <- mapIds(
   org.Mm.eg.db,
   keys = rownames(se),
-  column = "SYMBOL",
-  keytype = "ENTREZID",
+  column = "ENTREZID",
+  keytype = "SYMBOL",
   multiVals = "first"
 )
 

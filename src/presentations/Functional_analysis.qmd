@@ -123,3 +123,11 @@ Table from [hbctraing:Intro-to-DGE](https://hbctraining.github.io/Intro-to-DGE)
 
 
 ## Exploratory Data Analysis
+
+*Inspect your data and identify and try to understand general pattern*
+
+### Examples
+- Clustering
+- Principal Component Ananlysis
+
+![](img/data-viz.svg) 

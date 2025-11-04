@@ -1,0 +1,110 @@
+---
+title: "Single Cell: Preprocessing and QC"
+format: html
+execute:
+  eval: false
+---
+
+### Exercise 0: Load the Data Object
+
+```r
+library(Seurat)
+epi <- readRDS("data/epithelial_bcc_and_normal_seurat.rds")
+epi
+```
+
+## Filtering of Cells
+
+Quality metrics are:
+
+- The number of unique genes detected in each cell.
+- Total number of molecules detected within a cell (correlates strongly with unique genes)
+- The percentage of reads that map to the mitochondrial genome
+
+The example object already contains all 3 quality metrics. 
+Seurat automatically does so for the number of unique genes and detected molecules per cell, but usually the mitochondrial genes have to be calculated. Here this can be skipped.
+
+### Exercise 1: Visualize different cell quality metrics
+
+```r
+# epi[["percent.mt"]] <- PercentageFeatureSet(epi, pattern = "^MT-")
+
+# Visualize QC metrics as a violin plot
+Seurat::VlnPlot(epi, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3)
+```
+__Question__: How are the different groups affected by the quality metrics? How does this affect downstream analysis?  
+__Question__: Can you explain the sharp cut-off for some metrics and groups, e.g. 2500 unique features for the bcc group?  
+
+## Normalizing the Data
+
+### Exercise 2: Log-Normalization
+This object contains already normalized data. So we don't have to run normalization again.
+
+```r
+SeuratObject::Layers(epi)
+# epi <- Seurat::NormalizeData(epi)
+```
+
+## Feature Selection
+
+### Exercise 3: Identify highly variable features
+
+```r
+epi <- Seurat::FindVariableFeatures(epi,selection.method = "vst", nfeatures = 2000)
+
+# top10 variable features:
+top10 <- head(Seurat::VariableFeatures(epi), 10)
+
+# plot variable features with and without labels
+plot1 <- Seurat::VariableFeaturePlot(epi)
+Seurat::LabelPoints(plot = plot1, points = top10, repel = TRUE)
+```
+__Question__: What are the top variable genes? Can you explain the plot?
+
+
+## Scaling
+
+The `ScaleData()`function:
+
+* Shifts the expression of each gene, so that the mean is 0 and variance is 1 
+* Accounts for mean expression in downstream tasks 
+* By default, only variable features are scaled 
+* Can be used to remove unwanted sources of variation (`vars.to.regress`) 
+
+### Exercise 4: Scaling the data
+
+```r
+epi <- Seurat::ScaleData(epi, vars.to.regress = "percent.mt")
+```
+
+## Dimensional Reduction
+
+### Exercise 5: Run PCA and examine the loadings
+
+```r
+epi <- Seurat::RunPCA(epi, features = Seurat::VariableFeatures(object = epi))
+Seurat::VizDimLoadings(epi, dims = 1:2, reduction = "pca")
+Seurat::DimPlot(epi, reduction = "pca")
+```
+
+__Question__: Can you explain the cells distribution along the PCA?  
+__Question__(BONUS): The object does already contain a PCA embedding called `X_pca`. Compare the two embeddings? Do you have potential explanations for the differences?
+
+### Exercise 6: Perform a non-linear dimensionality reduction
+
+```r
+epi <- Seurat::RunUMAP(epi, dims = 1:25)
+Seurat::DimPlot(epi, reduction = "umap")
+```
+__Question__: Can you explain the pattern you observe?  
+__Question__(BONUS): As above compare with the existing `X_umap` embedding.  
+
+
+## Save Processed Object
+
+### Exercise 7: Save the object for use in the next exercise
+
+```r
+saveRDS(epi, file = "../../output/epithelial_bcc_and_normal_preprocessed.rds") # Adapt path to your folder structure!!
+
+```

@@ -34,6 +34,7 @@ Check the variance across genes with different mean counts. The `variance-stabil
 
 ```r
 library(DESeq2)
+library(vsn)
 # Generate the object
 dds <- DESeqDataSet(se_filt, design = ~ 1)
 
@@ -44,7 +45,7 @@ meanSdPlot(assay(dds), ranks = FALSE)
 vsd <- vst(dds)
 
 # Plot the transformed data
-meanSdPlot(assay(dds), ranks = FALSE)
+meanSdPlot(assay(vsd), ranks = FALSE)
 
 ```
 

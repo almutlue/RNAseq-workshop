@@ -162,6 +162,52 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>  
     </ul>
   </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-single-cell-exercises" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Single Cell Exercises</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-single-cell-exercises">    
+        <li>
+    <a class="dropdown-item" href="../../src/exercises/exercise_sc1_data_loading.html">
+ <span class="dropdown-text">Single Cell: The Data Object</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../src/exercises/exercise_sc2_preprocessing.html">
+ <span class="dropdown-text">Single Cell: Preprocessing and QC</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../src/exercises/exercise_sc3_clustering.html">
+ <span class="dropdown-text">Single Cell: Integration and Clustering</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../src/exercises/exercise_sc4_de.html">
+ <span class="dropdown-text">Single Cell: Differential Expression</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-presentations" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Presentations</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-presentations">    
+        <li>
+    <a class="dropdown-item" href="../../src/presentations/RNAseq_basics.html">
+ <span class="dropdown-text">RNAseq Basics</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../src/presentations/R_basics.html">
+ <span class="dropdown-text">R Basics</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../src/presentations/Functional_analysis.html">
+ <span class="dropdown-text">Functional Analysis</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../src/presentations/Enrichment_analysis.html">
+ <span class="dropdown-text">Enrichment Analysis</span></a>
+  </li>  
+    </ul>
+  </li>
 </ul>
           </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
@@ -240,8 +286,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="fu">download.file</span>(</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">url =</span> <span class="st">"https://github.com/carpentries-incubator/bioc-rnaseq/raw/main/episodes/data/GSE96870_coldata_all.csv"</span>, </span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">destfile =</span> <span class="st">"../../data/GSE96870_coldata_all.csv"</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">url =</span> <span class="st">"https://github.com/carpentries-incubator/bioc-rnaseq/raw/main/episodes/data/GSE96870_counts_cerebellum.csv"</span>, </span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">destfile =</span> <span class="st">"../../data/GSE96870_counts_cerebellum.csv"</span></span>
 <span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>counts <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"../../data/GSE96870_counts_cerebellum.csv"</span>, <span class="at">row.names =</span> <span class="dv">1</span>)</span>
@@ -270,11 +316,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(org.Mm.eg.db)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(AnnotationDbi)</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="fu">rowData</span>(se)<span class="sc">$</span>symbol <span class="ot">&lt;-</span> <span class="fu">mapIds</span>(</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="fu">rowData</span>(se)<span class="sc">$</span>ENTREZID <span class="ot">&lt;-</span> <span class="fu">mapIds</span>(</span>
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  org.Mm.eg.db,</span>
 <span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">keys =</span> <span class="fu">rownames</span>(se),</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">column =</span> <span class="st">"SYMBOL"</span>,</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">keytype =</span> <span class="st">"ENTREZID"</span>,</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">column =</span> <span class="st">"ENTREZID"</span>,</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">keytype =</span> <span class="st">"SYMBOL"</span>,</span>
 <span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">multiVals =</span> <span class="st">"first"</span></span>
 <span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a></span>

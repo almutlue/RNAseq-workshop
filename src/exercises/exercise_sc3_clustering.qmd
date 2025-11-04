@@ -1,0 +1,81 @@
+---
+title: "Single Cell: Integration and Clustering"
+format: html
+execute:
+  eval: false
+---
+
+### Exercise 0: Load the Data Object
+
+```r
+library(Seurat)
+epi <- readRDS("../../output/epithelial_bcc_and_normal_preprocessed.rds") # adapt path to your folder structure!
+epi
+```
+
+## Integration
+
+The previous exercises revealed a batch effect related to the cells origin.
+Some downstream methods (e.g. differential expression analysis) can directly account for this, but for clustering we need to generate a corrected embedding. 
+
+### Exercise 1: Integrate data from different origins
+
+```r
+# split by identity
+epi[["RNA"]] <- split(epi[["RNA"]], f = epi$orig.ident)
+
+# integrate
+epi <- Seurat::IntegrateLayers(object = epi, method = "CCAIntegration",
+                       orig.reduction = "pca",
+                       new.reduction = "integrated",
+                       verbose = FALSE)
+
+# re-join layers after integration
+epi[["RNA"]] <- SeuratObject::JoinLayers(epi[["RNA"]])
+```
+
+__Question__: What has changed? 
+
+### Exercise 2: Visualize the integrated embedding
+
+```r
+epi <- Seurat::RunUMAP(epi, dims = 1:30, reduction = "integrated")
+Seurat::DimPlot(epi, reduction = "umap")
+```
+__Question__: Why do we recalculate the UMAP? How would rate the integration?
+
+## Clustering
+
+### Exercise 3: Perform the clustering
+
+```r
+epi <- Seurat::FindNeighbors(epi, dims = 1:25, reduction = "integrated")
+epi <- Seurat::FindClusters(epi, resolution = seq(0.1, 0.8, by=0.1))
+head(epi[[]])
+```
+
+### Exercise 4 - BONUS: Compare the clustering with the cell type assignments
+Try different resolutions and different strategies, e.g.:
+
+```r
+table(epi$RNA_snn_res.0.5, epi$`05_subcelltypes`)
+
+epi <- Seurat::SetIdent(epi, value = epi$`05_subcelltypes`)
+p1 <- Seurat::DimPlot(epi, group.by = "RNA_snn_res.0.2", label = TRUE, reduction = "umap")
+p2 <- Seurat::DimPlot(epi, label = TRUE, reduction = "umap")
+p1 + p2
+```
+__Question__: Which resolution should be used?
+
+## Save Processed Object
+
+### Exercise 5: Save the object for use in the next exercise
+
+```r
+saveRDS(epi, file = "../../output/epithelial_bcc_and_normal_cell_types.rds") # Adapt path to your folder structure!!
+
+```
+
+
+
+

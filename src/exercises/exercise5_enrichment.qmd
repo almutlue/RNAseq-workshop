@@ -34,7 +34,7 @@ library(org.Mm.eg.db)
 
 ego <- enrichGO(gene          = gene_list,
                 OrgDb         = org.Mm.eg.db,
-                keyType       = "ENTREZID",
+                keyType       = "SYMBOL",
                 ont           = "BP",
                 pAdjustMethod = "BH",
                 qvalueCutoff  = 0.05)

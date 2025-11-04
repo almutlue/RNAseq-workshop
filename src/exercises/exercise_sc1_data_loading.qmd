@@ -1,0 +1,68 @@
+---
+title: "Single Cell: The Data Object"
+format: html
+execute:
+  eval: false
+---
+
+In this workshop, we will work with the epithelial single cell transcriptome data from the spatial skin atlas^[C. Ganier, P. Mazin, G. Herrera-Oropeza, X. Du-Harpur, M. Blakeley, J. Gabriel, A.V. Predeus, B. Cakir, M. Prete, N. Harun, J. Darrigrand, A. Haiser, S. Wyles, T. Shaw, S.A. Teichmann, M. Haniffa, F.M. Watt, & M.D. Lynch, Multiscale spatial mapping of cell populations across anatomical sites in healthy human skin and basal cell carcinoma, Proc. Natl. Acad. Sci. U.S.A. 121 (2) e2313326120, https://doi.org/10.1073/pnas.2313326120 (2024).]. 
+The dataset contains cell populations across anatomical sites in healthy human skin and basal cell carcinoma.
+
+Data can be downloaded from the [spatial skin atlas website](https://spatial-skin-atlas.cellgeni.sanger.ac.uk/) as `.h5ad` file. This is an [AnnData](https://anndata.readthedocs.io/en/stable/) python object. To load it into R you can use the [anndataR](https://bioconductor.org/packages/release/bioc/html/anndataR.html) package. Here we already transformed it into a Seurat object, which can be loaded.
+
+
+## The `SeuratObject`
+
+### Exercise1: Load the object
+
+```r
+library(Seurat)
+epi <- readRDS("data/epithelial_bcc_and_normal_seurat.rds")
+epi
+
+```
+
+The `SeuratObject` class contains multiple convoluted slots and lists. 
+The figure^[From: SIB course Single Cell Transcriptomics, SIB Swiss Institute of Bioinformatics, https://sib-swiss.github.io/single-cell-training/] and exercises below will go through the most important slots and 
+show how to navigate the object. 
+
+![](img/seurat_object.png)
+
+### Exercise2: Familiarize yourself with the dataset
+```r
+head(colnames(epi))  # cell IDs
+head(rownames(epi))  # Gene names 
+
+ncol(epi)  # Number of cells
+nrow(epi)  # Number of genes
+```
+
+__Question__: Try to access different of the above slots. What do you find out about the dataset? 
+
+### Exercise3: Explore the datasets metadata
+
+```r
+head(epi@meta.data)
+table(epi$`00_conditions`)
+```
+__Question__: What locations are cells from? How many cell types have been assigned?
+
+### Exercise4: Identity class labels
+In the Seurat framework *Identity label* or `Idents` are used to group or categorize cells e.g.
+sample conditions or cell types. You can __view__, __set__ or __change__ them.
+`Seurat` uses the *active identity* within its functions, e.g. to calculate variable features etc.
+Therefore it is important to check the active identity.
+
+```r
+epi@active.ident # get active Identity
+Idents(epi) <- "04_celltypes" # set active Identity to cell types
+```
+__Question__: How can you set the identity to sub cell types?
+
+### Exercise5 (optional): The assay slot
+
+```r
+epi@active.assay
+```
+
+__Question__: What is the active assay? So far we only have one assay. Can you still guess what the active assay is used for?

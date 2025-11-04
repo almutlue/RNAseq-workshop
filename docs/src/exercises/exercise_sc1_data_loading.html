@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Enrichment analysis – RNAseq-workshop</title>
+<title>Single Cell: The Data Object – RNAseq-workshop</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -224,18 +224,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#exercise-0-load-de-results" id="toc-exercise-0-load-de-results" class="nav-link active" data-scroll-target="#exercise-0-load-de-results">Exercise 0: Load DE results</a></li>
-  <li><a href="#de-gene-list" id="toc-de-gene-list" class="nav-link" data-scroll-target="#de-gene-list">DE gene list</a>
+  <li><a href="#the-seuratobject" id="toc-the-seuratobject" class="nav-link active" data-scroll-target="#the-seuratobject">The <code>SeuratObject</code></a>
   <ul class="collapse">
-  <li><a href="#exercise-1-load-de-genes-for-overrepresentation-analysis" id="toc-exercise-1-load-de-genes-for-overrepresentation-analysis" class="nav-link" data-scroll-target="#exercise-1-load-de-genes-for-overrepresentation-analysis">Exercise 1: Load DE genes for overrepresentation analysis</a></li>
-  </ul></li>
-  <li><a href="#overrepresentation-analysis" id="toc-overrepresentation-analysis" class="nav-link" data-scroll-target="#overrepresentation-analysis">Overrepresentation Analysis</a>
-  <ul class="collapse">
-  <li><a href="#exercise-2-perform-go-overrepresentation-analysis" id="toc-exercise-2-perform-go-overrepresentation-analysis" class="nav-link" data-scroll-target="#exercise-2-perform-go-overrepresentation-analysis">Exercise 2: Perform GO overrepresentation analysis</a></li>
-  </ul></li>
-  <li><a href="#visualization" id="toc-visualization" class="nav-link" data-scroll-target="#visualization">Visualization</a>
-  <ul class="collapse">
-  <li><a href="#exercise-3-plot-top-enriched-go-terms" id="toc-exercise-3-plot-top-enriched-go-terms" class="nav-link" data-scroll-target="#exercise-3-plot-top-enriched-go-terms">Exercise 3: Plot top enriched GO terms</a></li>
+  <li><a href="#exercise1-load-the-object" id="toc-exercise1-load-the-object" class="nav-link" data-scroll-target="#exercise1-load-the-object">Exercise1: Load the object</a></li>
+  <li><a href="#exercise2-familiarize-yourself-with-the-dataset" id="toc-exercise2-familiarize-yourself-with-the-dataset" class="nav-link" data-scroll-target="#exercise2-familiarize-yourself-with-the-dataset">Exercise2: Familiarize yourself with the dataset</a></li>
+  <li><a href="#exercise3-explore-the-datasets-metadata" id="toc-exercise3-explore-the-datasets-metadata" class="nav-link" data-scroll-target="#exercise3-explore-the-datasets-metadata">Exercise3: Explore the datasets metadata</a></li>
+  <li><a href="#exercise4-identity-class-labels" id="toc-exercise4-identity-class-labels" class="nav-link" data-scroll-target="#exercise4-identity-class-labels">Exercise4: Identity class labels</a></li>
+  <li><a href="#exercise5-optional-the-assay-slot" id="toc-exercise5-optional-the-assay-slot" class="nav-link" data-scroll-target="#exercise5-optional-the-assay-slot">Exercise5 (optional): The assay slot</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -245,7 +240,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Enrichment analysis</h1>
+<h1 class="title">Single Cell: The Data Object</h1>
 </div>
 
 
@@ -262,48 +257,57 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="exercise-0-load-de-results" class="level3">
-<h3 class="anchored" data-anchor-id="exercise-0-load-de-results">Exercise 0: Load DE results</h3>
-<p>Load the results produced in exercise 4 (skip if it’s still in your environment).</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"../../output/de_sex_time.rds"</span>)  <span class="co"># adapt path to your folder structure!</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>In this workshop, we will work with the epithelial single cell transcriptome data from the spatial skin atlas<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>. The dataset contains cell populations across anatomical sites in healthy human skin and basal cell carcinoma.</p>
+<p>Data can be downloaded from the <a href="https://spatial-skin-atlas.cellgeni.sanger.ac.uk/">spatial skin atlas website</a> as <code>.h5ad</code> file. This is an <a href="https://anndata.readthedocs.io/en/stable/">AnnData</a> python object. To load it into R you can use the <a href="https://bioconductor.org/packages/release/bioc/html/anndataR.html">anndataR</a> package. Here we already transformed it into a Seurat object, which can be loaded.</p>
+<section id="the-seuratobject" class="level2">
+<h2 class="anchored" data-anchor-id="the-seuratobject">The <code>SeuratObject</code></h2>
+<section id="exercise1-load-the-object" class="level3">
+<h3 class="anchored" data-anchor-id="exercise1-load-the-object">Exercise1: Load the object</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(Seurat)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>epi <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"data/epithelial_bcc_and_normal_seurat.rds"</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>epi</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The <code>SeuratObject</code> class contains multiple convoluted slots and lists. The figure<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> and exercises below will go through the most important slots and show how to navigate the object.</p>
+<p><img src="img/seurat_object.png" class="img-fluid"></p>
 </section>
-<section id="de-gene-list" class="level2">
-<h2 class="anchored" data-anchor-id="de-gene-list">DE gene list</h2>
-<section id="exercise-1-load-de-genes-for-overrepresentation-analysis" class="level3">
-<h3 class="anchored" data-anchor-id="exercise-1-load-de-genes-for-overrepresentation-analysis">Exercise 1: Load DE genes for overrepresentation analysis</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>gene_list <span class="ot">&lt;-</span> <span class="fu">rownames</span>(res[<span class="fu">which</span>(res<span class="sc">$</span>padj <span class="sc">&lt;</span> <span class="fl">0.05</span>), ])</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(gene_list)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><strong>Question</strong>: How many significant genes do we have for enrichment?</p>
+<section id="exercise2-familiarize-yourself-with-the-dataset" class="level3">
+<h3 class="anchored" data-anchor-id="exercise2-familiarize-yourself-with-the-dataset">Exercise2: Familiarize yourself with the dataset</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">colnames</span>(epi))  <span class="co"># cell IDs</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">rownames</span>(epi))  <span class="co"># Gene names </span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ncol</span>(epi)  <span class="co"># Number of cells</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(epi)  <span class="co"># Number of genes</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Question</strong>: Try to access different of the above slots. What do you find out about the dataset?</p>
 </section>
+<section id="exercise3-explore-the-datasets-metadata" class="level3">
+<h3 class="anchored" data-anchor-id="exercise3-explore-the-datasets-metadata">Exercise3: Explore the datasets metadata</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(epi<span class="sc">@</span>meta.data)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(epi<span class="sc">$</span><span class="st">`</span><span class="at">00_conditions</span><span class="st">`</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Question</strong>: What locations are cells from? How many cell types have been assigned?</p>
 </section>
-<section id="overrepresentation-analysis" class="level2">
-<h2 class="anchored" data-anchor-id="overrepresentation-analysis">Overrepresentation Analysis</h2>
-<section id="exercise-2-perform-go-overrepresentation-analysis" class="level3">
-<h3 class="anchored" data-anchor-id="exercise-2-perform-go-overrepresentation-analysis">Exercise 2: Perform GO overrepresentation analysis</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(clusterProfiler)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(org.Mm.eg.db)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>ego <span class="ot">&lt;-</span> <span class="fu">enrichGO</span>(<span class="at">gene          =</span> gene_list,</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>                <span class="at">OrgDb         =</span> org.Mm.eg.db,</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>                <span class="at">keyType       =</span> <span class="st">"SYMBOL"</span>,</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>                <span class="at">ont           =</span> <span class="st">"BP"</span>,</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>                <span class="at">pAdjustMethod =</span> <span class="st">"BH"</span>,</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>                <span class="at">qvalueCutoff  =</span> <span class="fl">0.05</span>)</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>ego</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><strong>Question</strong>: How many GO terms are significant?</p>
+<section id="exercise4-identity-class-labels" class="level3">
+<h3 class="anchored" data-anchor-id="exercise4-identity-class-labels">Exercise4: Identity class labels</h3>
+<p>In the Seurat framework <em>Identity label</em> or <code>Idents</code> are used to group or categorize cells e.g. sample conditions or cell types. You can <strong>view</strong>, <strong>set</strong> or <strong>change</strong> them. <code>Seurat</code> uses the <em>active identity</em> within its functions, e.g.&nbsp;to calculate variable features etc. Therefore it is important to check the active identity.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>epi<span class="sc">@</span>active.ident <span class="co"># get active Identity</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">Idents</span>(epi) <span class="ot">&lt;-</span> <span class="st">"04_celltypes"</span> <span class="co"># set active Identity to cell types</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Question</strong>: How can you set the identity to sub cell types?</p>
 </section>
-</section>
-<section id="visualization" class="level2">
-<h2 class="anchored" data-anchor-id="visualization">Visualization</h2>
-<section id="exercise-3-plot-top-enriched-go-terms" class="level3">
-<h3 class="anchored" data-anchor-id="exercise-3-plot-top-enriched-go-terms">Exercise 3: Plot top enriched GO terms</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(ego, <span class="at">showCategory =</span> <span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="exercise5-optional-the-assay-slot" class="level3">
+<h3 class="anchored" data-anchor-id="exercise5-optional-the-assay-slot">Exercise5 (optional): The assay slot</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>epi<span class="sc">@</span>active.assay</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Question</strong>: What is the active assay? So far we only have one assay. Can you still guess what the active assay is used for?</p>
 
 
 </section>
 </section>
 
-</main> <!-- /main -->
+
+<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p>C. Ganier, P. Mazin, G. Herrera-Oropeza, X. Du-Harpur, M. Blakeley, J. Gabriel, A.V. Predeus, B. Cakir, M. Prete, N. Harun, J. Darrigrand, A. Haiser, S. Wyles, T. Shaw, S.A. Teichmann, M. Haniffa, F.M. Watt, &amp; M.D.&nbsp;Lynch, Multiscale spatial mapping of cell populations across anatomical sites in healthy human skin and basal cell carcinoma, Proc. Natl. Acad. Sci. U.S.A. 121 (2) e2313326120, https://doi.org/10.1073/pnas.2313326120 (2024).<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>From: SIB course Single Cell Transcriptomics, SIB Swiss Institute of Bioinformatics, https://sib-swiss.github.io/single-cell-training/<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";

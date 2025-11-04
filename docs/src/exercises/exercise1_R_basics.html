@@ -162,6 +162,52 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>  
     </ul>
   </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-single-cell-exercises" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Single Cell Exercises</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-single-cell-exercises">    
+        <li>
+    <a class="dropdown-item" href="../../src/exercises/exercise_sc1_data_loading.html">
+ <span class="dropdown-text">Single Cell: The Data Object</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../src/exercises/exercise_sc2_preprocessing.html">
+ <span class="dropdown-text">Single Cell: Preprocessing and QC</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../src/exercises/exercise_sc3_clustering.html">
+ <span class="dropdown-text">Single Cell: Integration and Clustering</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../src/exercises/exercise_sc4_de.html">
+ <span class="dropdown-text">Single Cell: Differential Expression</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-presentations" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Presentations</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-presentations">    
+        <li>
+    <a class="dropdown-item" href="../../src/presentations/RNAseq_basics.html">
+ <span class="dropdown-text">RNAseq Basics</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../src/presentations/R_basics.html">
+ <span class="dropdown-text">R Basics</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../src/presentations/Functional_analysis.html">
+ <span class="dropdown-text">Functional Analysis</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../src/presentations/Enrichment_analysis.html">
+ <span class="dropdown-text">Enrichment Analysis</span></a>
+  </li>  
+    </ul>
+  </li>
 </ul>
           </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
@@ -193,7 +239,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#bioconductor" id="toc-bioconductor" class="nav-link" data-scroll-target="#bioconductor">Bioconductor</a>
   <ul class="collapse">
   <li><a href="#exercise-7-load-the-package" id="toc-exercise-7-load-the-package" class="nav-link" data-scroll-target="#exercise-7-load-the-package">Exercise 7: Load the package</a></li>
-  <li><a href="#exercise-8-load-example-dataset" id="toc-exercise-8-load-example-dataset" class="nav-link" data-scroll-target="#exercise-8-load-example-dataset">Exercise 8: Load example dataset</a></li>
+  <li><a href="#exercise-8-load-example-dataset-from-airway-package" id="toc-exercise-8-load-example-dataset-from-airway-package" class="nav-link" data-scroll-target="#exercise-8-load-example-dataset-from-airway-package">Exercise 8: Load example dataset from airway package</a></li>
   <li><a href="#exercise-9-explore-the-object" id="toc-exercise-9-explore-the-object" class="nav-link" data-scroll-target="#exercise-9-explore-the-object">Exercise 9: Explore the object</a></li>
   <li><a href="#exercise-10-determine-dataset-size" id="toc-exercise-10-determine-dataset-size" class="nav-link" data-scroll-target="#exercise-10-determine-dataset-size">Exercise 10: Determine dataset size</a></li>
   </ul></li>
@@ -275,14 +321,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="exercise-7-load-the-package">Exercise 7: Load the package</h3>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(SummarizedExperiment)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
-<section id="exercise-8-load-example-dataset" class="level3">
-<h3 class="anchored" data-anchor-id="exercise-8-load-example-dataset">Exercise 8: Load example dataset</h3>
-<p>The package come with some example data, that can be loaded using the <code>example()</code> function.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">example</span>(SE)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="exercise-8-load-example-dataset-from-airway-package" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-8-load-example-dataset-from-airway-package">Exercise 8: Load example dataset from airway package</h3>
+<p>The airway package contains some example RNAseq data that come as <code>RangedSummarieExperiment</code> (a derivation of the <code>SummarizedExperiment</code> class) object.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the data</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(airway, <span class="at">package=</span><span class="st">"airway"</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co"># assign the data to the variable se</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>se <span class="ot">&lt;-</span> airway</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="exercise-9-explore-the-object" class="level3">
 <h3 class="anchored" data-anchor-id="exercise-9-explore-the-object">Exercise 9: Explore the object</h3>
-<p>You can use the following functions to access different parts of the object. Try to answer the following questions: 1. What does the output represent? 2. What is the advantage of combining these different parts of the data (e.g.&nbsp;metadata, count data)? 3. [BONUS] How can you downsample the object to the first 10 features? Check the <a href="https://bioconductor.org/packages/devel/bioc/vignettes/SummarizedExperiment/inst/doc/SummarizedExperiment.html">vignette</a> or ask a LLM, if you need help.</p>
+<p>You can use the following functions to access different parts of the object. Try to answer the following questions: 1. What is the advantage of combining these different parts of the data (e.g.&nbsp;metadata, count data)? 2. How can you downsample the object to the first 10 features? Check the <a href="https://bioconductor.org/packages/devel/bioc/vignettes/SummarizedExperiment/inst/doc/SummarizedExperiment.html">vignette</a> or ask a LLM, if you need help. 3. [BONUS] Can you guess the experimental setup from exploring the object?</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>se</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">assay</span>(se)</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">colData</span>(se)</span>

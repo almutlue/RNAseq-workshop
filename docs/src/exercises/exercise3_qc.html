@@ -162,6 +162,52 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>  
     </ul>
   </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-single-cell-exercises" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Single Cell Exercises</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-single-cell-exercises">    
+        <li>
+    <a class="dropdown-item" href="../../src/exercises/exercise_sc1_data_loading.html">
+ <span class="dropdown-text">Single Cell: The Data Object</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../src/exercises/exercise_sc2_preprocessing.html">
+ <span class="dropdown-text">Single Cell: Preprocessing and QC</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../src/exercises/exercise_sc3_clustering.html">
+ <span class="dropdown-text">Single Cell: Integration and Clustering</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../src/exercises/exercise_sc4_de.html">
+ <span class="dropdown-text">Single Cell: Differential Expression</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-presentations" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Presentations</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-presentations">    
+        <li>
+    <a class="dropdown-item" href="../../src/presentations/RNAseq_basics.html">
+ <span class="dropdown-text">RNAseq Basics</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../src/presentations/R_basics.html">
+ <span class="dropdown-text">R Basics</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../src/presentations/Functional_analysis.html">
+ <span class="dropdown-text">Functional Analysis</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../src/presentations/Enrichment_analysis.html">
+ <span class="dropdown-text">Enrichment Analysis</span></a>
+  </li>  
+    </ul>
+  </li>
 </ul>
           </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
@@ -239,17 +285,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="exercise-2-transform-the-data">Exercise 2: Transform the data</h3>
 <p>Check the variance across genes with different mean counts. The <code>variance-stabilizing transformation</code> was developed as part of the <code>DESeq2</code> package to account for this variance-mean relationship. The <code>DESeq2</code> package uses the <code>DESeqDataSet</code> as underlying object class. The structure is an extension of the <code>SummarizedExperiment</code> class.</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DESeq2)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate the object</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>dds <span class="ot">&lt;-</span> <span class="fu">DESeqDataSet</span>(se_filt, <span class="at">design =</span> <span class="sc">~</span> <span class="dv">1</span>)</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the mean sd relationship</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="fu">meanSdPlot</span>(<span class="fu">assay</span>(dds), <span class="at">ranks =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Transform the data</span></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>vsd <span class="ot">&lt;-</span> <span class="fu">vst</span>(dds)</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the transformed data</span></span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="fu">meanSdPlot</span>(<span class="fu">assay</span>(dds), <span class="at">ranks =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(vsn)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate the object</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>dds <span class="ot">&lt;-</span> <span class="fu">DESeqDataSet</span>(se_filt, <span class="at">design =</span> <span class="sc">~</span> <span class="dv">1</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the mean sd relationship</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="fu">meanSdPlot</span>(<span class="fu">assay</span>(dds), <span class="at">ranks =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Transform the data</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>vsd <span class="ot">&lt;-</span> <span class="fu">vst</span>(dds)</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the transformed data</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="fu">meanSdPlot</span>(<span class="fu">assay</span>(vsd), <span class="at">ranks =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 </section>
 <section id="data-visualization" class="level2">
