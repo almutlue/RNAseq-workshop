@@ -58,17 +58,21 @@ Try different approaches and check the remaining gene number and type.
 :::
 
 ## Normalization - Gene Length {.smaller}
-
-
 <br>
+
+::: {.fragment .highlight-red}
 *Making counts comparable across features (genes)*
+:::
 <br>
 
 ![](img/normalization_methods_length.png){height="500"}
 
 ## Normalization - Sequencing Depth {.smaller}
 <br>
+
+::: {.fragment .highlight-red}
 *Making counts comparable across samples*
+:::
 <br>
 ![](img/normalization_methods_depth.png){height="500"}
 
@@ -123,11 +127,170 @@ Table from [hbctraing:Intro-to-DGE](https://hbctraining.github.io/Intro-to-DGE)
 
 
 ## Exploratory Data Analysis
+<br>
 
+::: {.fragment .highlight-red}
 *Inspect your data and identify and try to understand general pattern*
+:::
+<br>
 
 ### Examples
 - Clustering
 - Principal Component Ananlysis
 
-![](img/data-viz.svg) 
+![](img/data-viz.svg){.absolute top="300" right="80" height="350"}
+
+## Principal Component Analysis
+<br>
+
+::: columns
+::: {.column width="55%"}
+- Reduce complexity and understand main driver of variance
+- Map data into low dimensional space (*linear dimensionality reduction*)
+- Interpretable 
+
+:::
+::: {.column width="45%"}
+![](img/red-dim.png) 
+
+:::
+:::
+
+
+## Principal Component Analysis
+<br>
+First dimensions represent main axis of variance in data
+
+![](img/pca-contrib.png) 
+
+::: footer
+Czarnewski, P., Parigi, S.M., Sorini, C. et al. Conserved transcriptomic profile between mouse and human colitis allows unsupervised patient stratification. Nat Commun 10, 2892 (2019). https://doi.org/10.1038/s41467-019-10769-x
+:::
+
+## Principal Component Analysis
+<br>
+
+![](img/shakira.svg) 
+
+::: footer
+from https://glowingpython.blogspot.com/2011/07/pca-and-image-compression-with-numpy.html
+:::
+
+## Clustering {.smaller}
+
+- Classify/group samples -> understand sample similarities
+- Understand pattern
+- Identify outlier
+- Try different clustering methods and check cluster roboustness
+
+![](img/clustering.png){height="480"}
+
+## Differential Expression{.smaller}
+
+<br>
+
+::: {.fragment .highlight-red}
+*Understanding systematic changes between experimental groups or conditions*
+:::
+<br>
+
+::: columns
+::: {.column width="45%"}
+- Identify genes with differential expression pattern using *between*- and *within-condition* variability
+- Requires __biological replicates__ (multiple sample from each condition)
+- Multiple R packages exist specific for DE analysis (e.g. [edgeR](https://bioconductor.org/packages/release/bioc/html/edgeR.html), [DESeq2](https://bioconductor.org/packages/release/bioc/html/DESeq2.html))
+
+:::
+::: {.column width="55%"}
+![](img/de_theory.png)
+
+:::
+:::
+
+::: footer
+Image from [hbctraing:Intro-to-DGE](https://hbctraining.github.io/Intro-to-DGE)
+:::
+
+## Differential Expression Analysis
+
+### RNAseq Data Challenges:
+- Limited number of replicates per group
+- Mean-variance dependency
+- Skewed count distribution
+
+![](img/deseq_counts_overview.png)
+
+::: footer
+Image from [hbctraing:Intro-to-DGE](https://hbctraining.github.io/Intro-to-DGE)
+:::
+
+## DESeq2 {.smaller}
+
+![](img/DESeq2.png){.absolute top="40" right="80" height="100"}
+
+<br>
+
+::: columns
+::: {.column width="45%"}
+#### Statistical modeling
+- model RNA-seq counts as *negative binomial distribution* 
+- borrow information from genes with similar expression pattern to estimate *gene-wise dispersion*
+- Fit a *Generalized linear model* for each gene and run Wald test
+
+:::
+::: {.column width="55%"}
+![](img/deseq_dispersion2.png){top="170"}
+
+:::
+:::
+
+::: footer
+Image from [hbctraing:Intro-to-DGE](https://hbctraining.github.io/Intro-to-DGE)
+:::
+
+## The Design Matrix and Contrasts {.smaller}
+
+ <br>
+
+#### Design matrix
+
+::: {.nonincremental}
+- Describes the model coefficients
+- Include variable of interest and all variables to account for
+:::
+
+```r
+designFormula = ~ sex + time
+```
+
+ <br>
+
+#### Contrasts
+
+::: {.nonincremental}
+- Describes the comparison of interest (reference variable and levels to compare)
+:::
+
+```r
+results(dds, contrast = c("time", "Day8", "Day0"))
+```
+
+## DE Results
+
+<br>
+
+::: columns
+::: {.column width="45%"}
+
+#### Heatmap
+![](img/heatmap.png)
+
+:::
+::: {.column width="55%"}
+#### Volcano plot
+<br>
+<br>
+![](img/volcano.png)
+
+:::
+:::

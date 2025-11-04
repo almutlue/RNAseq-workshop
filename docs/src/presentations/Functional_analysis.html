@@ -245,12 +245,20 @@
 </section>
 <section id="normalization---gene-length" class="slide level2 smaller">
 <h2>Normalization - Gene Length</h2>
-<p><br> <em>Making counts comparable across features (genes)</em> <br></p>
+<p><br></p>
+<div class="fragment highlight-red">
+<p><em>Making counts comparable across features (genes)</em></p>
+</div>
+<p><br></p>
 <p><img data-src="img/normalization_methods_length.png" height="500"></p>
 </section>
 <section id="normalization---sequencing-depth" class="slide level2 smaller">
 <h2>Normalization - Sequencing Depth</h2>
-<p><br> <em>Making counts comparable across samples</em> <br> <img data-src="img/normalization_methods_depth.png" height="500"></p>
+<p><br></p>
+<div class="fragment highlight-red">
+<p><em>Making counts comparable across samples</em></p>
+</div>
+<p><br> <img data-src="img/normalization_methods_depth.png" height="500"></p>
 </section>
 <section id="normalization---approaches" class="slide level2 smaller">
 <h2>Normalization - Approaches</h2>
@@ -351,16 +359,141 @@
 </section>
 <section id="exploratory-data-analysis" class="slide level2">
 <h2>Exploratory Data Analysis</h2>
+<p><br></p>
+<div class="fragment highlight-red">
 <p><em>Inspect your data and identify and try to understand general pattern</em></p>
+</div>
+<p><br></p>
 <h3 id="examples">Examples</h3>
 <ul>
 <li class="fragment">Clustering</li>
 <li class="fragment">Principal Component Ananlysis</li>
 </ul>
+<p><img data-src="img/data-viz.svg" class="absolute" style="top: 300px; right: 80px; height: 350px; "></p>
+</section>
+<section id="principal-component-analysis" class="slide level2">
+<h2>Principal Component Analysis</h2>
+<p><br></p>
+<div class="columns">
+<div class="column" style="width:55%;">
+<ul>
+<li class="fragment">Reduce complexity and understand main driver of variance</li>
+<li class="fragment">Map data into low dimensional space (<em>linear dimensionality reduction</em>)</li>
+<li class="fragment">Interpretable</li>
+</ul>
+</div><div class="column" style="width:45%;">
+<p><img data-src="img/red-dim.png"></p>
+</div></div>
+</section>
+<section id="principal-component-analysis-1" class="slide level2">
+<h2>Principal Component Analysis</h2>
+<p><br> First dimensions represent main axis of variance in data</p>
+
+<img data-src="img/pca-contrib.png" class="r-stretch"><div class="footer">
+<p>Czarnewski, P., Parigi, S.M., Sorini, C. et al.&nbsp;Conserved transcriptomic profile between mouse and human colitis allows unsupervised patient stratification. Nat Commun 10, 2892 (2019). https://doi.org/10.1038/s41467-019-10769-x</p>
+</div>
+</section>
+<section id="principal-component-analysis-2" class="slide level2">
+<h2>Principal Component Analysis</h2>
+<p><br></p>
+
+<img data-src="img/shakira.svg" class="r-stretch"><div class="footer">
+<p>from https://glowingpython.blogspot.com/2011/07/pca-and-image-compression-with-numpy.html</p>
+</div>
+</section>
+<section id="clustering" class="slide level2 smaller">
+<h2>Clustering</h2>
+<ul>
+<li class="fragment">Classify/group samples -&gt; understand sample similarities</li>
+<li class="fragment">Understand pattern</li>
+<li class="fragment">Identify outlier</li>
+<li class="fragment">Try different clustering methods and check cluster roboustness</li>
+</ul>
+<p><img data-src="img/clustering.png" height="480"></p>
+</section>
+<section id="differential-expression" class="slide level2 smaller">
+<h2>Differential Expression</h2>
+<p><br></p>
+<div class="fragment highlight-red">
+<p><em>Understanding systematic changes between experimental groups or conditions</em></p>
+</div>
+<p><br></p>
+<div class="columns">
+<div class="column" style="width:45%;">
+<ul>
+<li class="fragment">Identify genes with differential expression pattern using <em>between</em>- and <em>within-condition</em> variability</li>
+<li class="fragment">Requires <strong>biological replicates</strong> (multiple sample from each condition)</li>
+<li class="fragment">Multiple R packages exist specific for DE analysis (e.g.&nbsp;<a href="https://bioconductor.org/packages/release/bioc/html/edgeR.html">edgeR</a>, <a href="https://bioconductor.org/packages/release/bioc/html/DESeq2.html">DESeq2</a>)</li>
+</ul>
+</div><div class="column" style="width:55%;">
+<p><img data-src="img/de_theory.png"></p>
+</div></div>
+<div class="footer">
+<p>Image from <a href="https://hbctraining.github.io/Intro-to-DGE">hbctraing:Intro-to-DGE</a></p>
+</div>
+</section>
+<section id="differential-expression-analysis" class="slide level2">
+<h2>Differential Expression Analysis</h2>
+<h3 id="rnaseq-data-challenges">RNAseq Data Challenges:</h3>
+<ul>
+<li class="fragment">Limited number of replicates per group</li>
+<li class="fragment">Mean-variance dependency</li>
+<li class="fragment">Skewed count distribution</li>
+</ul>
+
+<img data-src="img/deseq_counts_overview.png" class="r-stretch"><div class="footer">
+<p>Image from <a href="https://hbctraining.github.io/Intro-to-DGE">hbctraing:Intro-to-DGE</a></p>
+</div>
+</section>
+<section id="deseq2" class="slide level2 smaller">
+<h2>DESeq2</h2>
+<p><img data-src="img/DESeq2.png" class="absolute" style="top: 40px; right: 80px; height: 100px; "></p>
+<p><br></p>
+<div class="columns">
+<div class="column" style="width:45%;">
+<h4 id="statistical-modeling">Statistical modeling</h4>
+<ul>
+<li class="fragment">model RNA-seq counts as <em>negative binomial distribution</em></li>
+<li class="fragment">borrow information from genes with similar expression pattern to estimate <em>gene-wise dispersion</em></li>
+<li class="fragment">Fit a <em>Generalized linear model</em> for each gene and run Wald test</li>
+</ul>
+</div><div class="column" style="width:55%;">
+<p><img data-src="img/deseq_dispersion2.png" data-top="170"></p>
+</div></div>
+<div class="footer">
+<p>Image from <a href="https://hbctraining.github.io/Intro-to-DGE">hbctraing:Intro-to-DGE</a></p>
+</div>
+</section>
+<section id="the-design-matrix-and-contrasts" class="slide level2 smaller">
+<h2>The Design Matrix and Contrasts</h2>
+<p><br></p>
+<h4 id="design-matrix">Design matrix</h4>
+<ul>
+<li>Describes the model coefficients</li>
+<li>Include variable of interest and all variables to account for</li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a></a>designFormula <span class="ot">=</span> <span class="er">~</span> sex <span class="sc">+</span> time</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><br></p>
+<h4 id="contrasts">Contrasts</h4>
+<ul>
+<li>Describes the comparison of interest (reference variable and levels to compare)</li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a></a><span class="fu">results</span>(dds, <span class="at">contrast =</span> <span class="fu">c</span>(<span class="st">"time"</span>, <span class="st">"Day8"</span>, <span class="st">"Day0"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="de-results" class="slide level2">
+<h2>DE Results</h2>
+<p><br></p>
+<div class="columns">
+<div class="column" style="width:45%;">
+<h4 id="heatmap">Heatmap</h4>
+<p><img data-src="img/heatmap.png"></p>
+</div><div class="column" style="width:55%;">
+<h4 id="volcano-plot">Volcano plot</h4>
+<p><br> <br> <img data-src="img/volcano.png"></p>
+</div></div>
 
 
-
-<img data-src="img/data-viz.svg" class="r-stretch"></section>
+</section>
     </div>
   <div class="quarto-auto-generated-content" style="display: none;">
 <p><img src="img/eda.svg" class="slide-logo"></p>

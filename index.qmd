@@ -4,12 +4,15 @@ title: "RNAseq-workshop exercises"
 
 ### Overview
 
-These exercises are part of a **one-day bulk RNA-seq data analysis workshop** presented at the **Young Investigators Symposium of the Skintegrity Network**. They provide a hands-on introduction to processing, exploring, and analyzing RNA-seq count data using R and Bioconductor.
+These exercises and presentations are part of a **two-day RNA-seq data analysis workshop** presented at the **Young Investigators Symposium of the Skintegrity Network**. They provide a hands-on introduction to processing, exploring, and analyzing RNA-seq count data using R and Bioconductor.
 
 The content is **adapted and simplified** from the *Carpentries Incubator course*  
 **“RNA-seq Analysis with Bioconductor”**  
 👉 https://carpentries-incubator.github.io/bioc-rnaseq/  
 which are highly recommended for further in-depth learning.
+
+The single cell RNAseq exercises are **adapted and simplified** from the *SIB Single Cell Training* resources.
+👉 https://sib-swiss.github.io/single-cell-training/ 
 
 Before starting, please ensure that **all required R and Bioconductor packages are installed** using the script provided in `src/install.R`. Basic familiarity with R (loading libraries, running scripts, inspecting objects) is useful, but not required.
 
