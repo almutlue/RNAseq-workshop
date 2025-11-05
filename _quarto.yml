@@ -38,6 +38,7 @@ website:
 
 format:
   html:
+    include-after-body: newtab.js
     theme:
       - cosmo
       - brand

@@ -318,6 +318,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 
 </main> <!-- /main -->
+
+<script>
+// Wait until the document has loaded
+document.addEventListener("DOMContentLoaded", function() {
+  // Select all navbar dropdown links that belong to 'Presentations' or 'Workshops'
+  const dropdownLinks = Array.from(document.querySelectorAll('.navbar a, .dropdown-menu a'))
+    .filter(link => {
+      const href = link.getAttribute('href') || '';
+      return href.includes('src/presentations/');
+    });
+
+  // Make those links open in a new tab
+  dropdownLinks.forEach(link => {
+    link.setAttribute('target', '_blank');
+    link.setAttribute('rel', 'noopener noreferrer');
+  });
+});
+</script>
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";
@@ -405,6 +423,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           if (link.dataset.originalHref !== undefined) {
             link.href = link.dataset.originalHref;
           }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
         }
       }
     function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
