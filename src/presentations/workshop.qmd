@@ -1,0 +1,59 @@
+---
+title: "RNA-seq analysis"
+subtitle: "About the workshop"
+format:
+  revealjs: 
+    slide-number: true
+    chalkboard: 
+      buttons: false
+    preview-links: auto
+    css: styles.css
+    title-slide-attributes:
+      data-background-image: img/bulk-bg.svg
+      data-background-size: 55%
+      data-background-opacity: "0.1"
+---
+
+## Format {.smaller}
+
+:::: {.columns}
+
+::: {.column width="45%"}
+<br>
+<br>
+
+- Presentations: background, theory, examples
+- Exercises: R-code + questions
+- RECAP: group discussion + results
+
+::: {.fragment .highlight-red}
+Ask questions at anytime!
+:::
+:::
+
+::: {.column width="55%"}
+
+![](img/schedule-thu.svg)
+
+:::
+
+::::
+
+## Resources{.smaller}
+<br>
+
+::: {.fragment .highlight-red}
+[https://almutlue.github.io/RNAseq-workshop/](https://almutlue.github.io/RNAseq-workshop/)
+:::
+
+<br>
+
+#### Help
+- Ask one of us!
+- Discuss with your neighbour!
+- Check the vignettes ([DESeq2](https://bioconductor.org/packages/devel/bioc/vignettes/DESeq2/inst/doc/DESeq2.html) and [Seurat](https://satijalab.org/seurat/articles/pbmc3k_tutorial))
+- Ask an AI tool of your choice!
+
+![](img/github.svg){left="40" height="80"}
+
+[https://github.com/almutlue/RNAseq-workshop](https://github.com/almutlue/RNAseq-workshop)

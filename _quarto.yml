@@ -10,6 +10,8 @@ website:
         text: Home
       - href: about.qmd
         text: About
+      - href: src/presentations/workshop.html
+        text: Workshop
       - text: Exercises
         menu:
           - src/exercises/exercise1_R_basics.qmd

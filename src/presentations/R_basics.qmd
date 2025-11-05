@@ -11,9 +11,8 @@ format:
     css: styles.css
     title-slide-attributes:
       data-background-image: img/happy-coder.svg
-      data-background-size: 20%
-      data-background-position: bottom
-      data-background-opacity: "0.3"
+      data-background-size: 50%
+      data-background-opacity: "0.1"
     incremental: true
 ---
 ## Language vs. Tooling
