@@ -227,7 +227,12 @@ ul.task-list li input[type="checkbox"] {
 👉 https://carpentries-incubator.github.io/bioc-rnaseq/<br>
 which are highly recommended for further in-depth learning.</p>
 <p>The single cell RNAseq exercises are <strong>adapted and simplified</strong> from the <em>SIB Single Cell Training</em> resources. 👉 https://sib-swiss.github.io/single-cell-training/</p>
-<p>Before starting, please ensure that <strong>all required R and Bioconductor packages are installed</strong> using the script provided in <code>src/install.R</code>. Basic familiarity with R (loading libraries, running scripts, inspecting objects) is useful, but not required.</p>
+<p>Before starting, please ensure that <strong>all required R and Bioconductor packages are installed</strong> using the script provided in <code>src/install.R</code> or run in an R Terminal:</p>
+<pre><code>install.packages(c("BiocManager", "remotes", "dplyr"))
+BiocManager::install(c("SummarizedExperiment", "airway", "AnnotationDbi",
+                        "org.Mm.eg.db", "DESeq2", "Seurat", "GEOquery",
+                        "clusterProfiler", "vsn"))</code></pre>
+<p>Basic familiarity with R (loading libraries, running scripts, inspecting objects) is useful, but not required.</p>
 <p>Across the exercises, you will:</p>
 <ul>
 <li>✅ Load RNA-seq count data<br>
