@@ -14,7 +14,16 @@ which are highly recommended for further in-depth learning.
 The single cell RNAseq exercises are **adapted and simplified** from the *SIB Single Cell Training* resources.
 👉 https://sib-swiss.github.io/single-cell-training/ 
 
-Before starting, please ensure that **all required R and Bioconductor packages are installed** using the script provided in `src/install.R`. Basic familiarity with R (loading libraries, running scripts, inspecting objects) is useful, but not required.
+Before starting, please ensure that **all required R and Bioconductor packages are installed** using the script provided in `src/install.R` or run in an R Terminal:
+
+````
+install.packages(c("BiocManager", "remotes", "dplyr"))
+BiocManager::install(c("SummarizedExperiment", "airway", "AnnotationDbi",
+                        "org.Mm.eg.db", "DESeq2", "Seurat", "GEOquery",
+                        "clusterProfiler", "vsn"))
+`````
+
+Basic familiarity with R (loading libraries, running scripts, inspecting objects) is useful, but not required.
 
 Across the exercises, you will:
 
