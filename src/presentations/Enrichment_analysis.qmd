@@ -39,7 +39,7 @@ Regrouping genes together in meaningful sets
 - Same molecular function
 :::
 
-## The universe matters (Almut?)
+## The universe matters
 
 . . .
 
@@ -54,7 +54,7 @@ Numerous gene set collections available
 - many more ...
 :::
 
-## The universe matters (Almut?)
+## The universe matters 
 
 MsigDB: [https://www.gsea-msigdb.org/gsea/msigdb/index.jsp](https://www.gsea-msigdb.org/gsea/msigdb/index.jsp)
 

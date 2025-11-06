@@ -123,7 +123,7 @@
     "href": "src/exercises/exercise2_data_loading.html#get-the-dataset",
     "title": "Data Loading",
     "section": "Get the Dataset",
-    "text": "Get the Dataset\nWith the GEOquery package public datasets from GEO can directly be downloaded and loaded as R object (option A) or the counts and metadata files can be downloaded to generate a SummarizedExperiment object from them (option B). Chose only one of the options, but try to answer all questions.\n\nExercise 1 (option A): Download the dataset from GEO\nlibrary(GEOquery)\ngse &lt;- getGEO(\"GSE96870\", GSEMatrix = TRUE)\nse\n\n\nExercise 2 (option B): Load the data from csv\nAlternatively the data can be downloaded original workshop and read into R. Adapt the path to your file structure!\ndownload.file(\n    url = \"https://github.com/carpentries-incubator/bioc-rnaseq/raw/main/episodes/data/GSE96870_coldata_cerebellum.csv\", \n    destfile = \"../../data/GSE96870_coldata_cerebellum.csv\"\n)\n\ndownload.file(\n    url = \"https://github.com/carpentries-incubator/bioc-rnaseq/raw/main/episodes/data/GSE96870_counts_cerebellum.csv\", \n    destfile = \"../../data/GSE96870_counts_cerebellum.csv\"\n)\n\ncounts &lt;- read.csv(\"../../data/GSE96870_counts_cerebellum.csv\", row.names = 1)\ncoldata &lt;- read.csv(\"../../data/GSE96870_coldata_cerebellum.csv\", row.names = 1)\n\ndim(counts)\ndim(coldata)\nQuestion: How many genes and samples are there?"
+    "text": "Get the Dataset\nWith the GEOquery package public datasets from GEO can directly be downloaded and loaded as R object (option A) or the counts and metadata files can be downloaded to generate a SummarizedExperiment object from them (option B). Chose only one of the options, but try to answer all questions.\n\nExercise 1 (option A): Download the dataset from GEO\nlibrary(GEOquery)\nse &lt;- getGEO(\"GSE96870\", GSEMatrix = TRUE)\nse\n\n\nExercise 2 (option B): Load the data from csv\nAlternatively the data can be downloaded original workshop and read into R. Adapt the path to your file structure!\ndownload.file(\n    url = \"https://github.com/carpentries-incubator/bioc-rnaseq/raw/main/episodes/data/GSE96870_coldata_cerebellum.csv\", \n    destfile = \"../../data/GSE96870_coldata_cerebellum.csv\"\n)\n\ndownload.file(\n    url = \"https://github.com/carpentries-incubator/bioc-rnaseq/raw/main/episodes/data/GSE96870_counts_cerebellum.csv\", \n    destfile = \"../../data/GSE96870_counts_cerebellum.csv\"\n)\n\ncounts &lt;- read.csv(\"../../data/GSE96870_counts_cerebellum.csv\", row.names = 1)\ncoldata &lt;- read.csv(\"../../data/GSE96870_coldata_cerebellum.csv\", row.names = 1)\n\ndim(counts)\ndim(coldata)\nQuestion: How many genes and samples are there?"
   },
   {
     "objectID": "src/exercises/exercise2_data_loading.html#build-the-r-object",
@@ -406,18 +406,18 @@
     "text": "Mapping genes to gene sets with specific biology\n\nRegrouping genes together in meaningful sets\n\nSame pathway\nSame location in the cell\nSame molecular function"
   },
   {
-    "objectID": "src/presentations/Enrichment_analysis.html#the-universe-matters-almut",
-    "href": "src/presentations/Enrichment_analysis.html#the-universe-matters-almut",
+    "objectID": "src/presentations/Enrichment_analysis.html#the-universe-matters",
+    "href": "src/presentations/Enrichment_analysis.html#the-universe-matters",
     "title": "Enrichment analysis",
-    "section": "The universe matters (Almut?)",
-    "text": "The universe matters (Almut?)\n\nNumerous gene set collections available\n\nGene Ontologies\nReactome\nKEGG\nMSigDB\nCustom gene sets (literature, tentative annotation)\nmany more …"
+    "section": "The universe matters",
+    "text": "The universe matters\n\nNumerous gene set collections available\n\nGene Ontologies\nReactome\nKEGG\nMSigDB\nCustom gene sets (literature, tentative annotation)\nmany more …"
   },
   {
-    "objectID": "src/presentations/Enrichment_analysis.html#the-universe-matters-almut-1",
-    "href": "src/presentations/Enrichment_analysis.html#the-universe-matters-almut-1",
+    "objectID": "src/presentations/Enrichment_analysis.html#the-universe-matters-1",
+    "href": "src/presentations/Enrichment_analysis.html#the-universe-matters-1",
     "title": "Enrichment analysis",
-    "section": "The universe matters (Almut?)",
-    "text": "The universe matters (Almut?)\nMsigDB: https://www.gsea-msigdb.org/gsea/msigdb/index.jsp"
+    "section": "The universe matters",
+    "text": "The universe matters\nMsigDB: https://www.gsea-msigdb.org/gsea/msigdb/index.jsp"
   },
   {
     "objectID": "src/presentations/Enrichment_analysis.html#computing-enrichment",

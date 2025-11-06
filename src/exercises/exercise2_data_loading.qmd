@@ -18,7 +18,7 @@ Chose only one of the options, but try to answer all questions.
 
 ```r
 library(GEOquery)
-gse <- getGEO("GSE96870", GSEMatrix = TRUE)
+se <- getGEO("GSE96870", GSEMatrix = TRUE)
 se
 
 ```
