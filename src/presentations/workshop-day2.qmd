@@ -1,0 +1,86 @@
+---
+title: "Single Cell RNA-seq analysis"
+subtitle: "About the workshop - Day2"
+format:
+  revealjs: 
+    slide-number: true
+    chalkboard: 
+      buttons: false
+    preview-links: auto
+    css: styles.css
+    title-slide-attributes:
+      data-background-image: img/bulk-bg.svg
+      data-background-size: 55%
+      data-background-opacity: "0.1"
+    incremental: true
+---
+
+## Format {.smaller}
+
+:::: {.columns}
+
+::: {.column width="45%"}
+<br>
+<br>
+
+- Lecture (Nils)
+- Exercises: R-code + questions
+- RECAP: group discussion + results
+
+::: {.fragment .highlight-red}
+Ask questions at anytime!
+:::
+:::
+
+::: {.column width="55%"}
+
+![](img/schedule-fri.svg)
+
+:::
+
+::::
+
+## Resources{.smaller}
+<br>
+
+::: {.fragment .highlight-red}
+[https://almutlue.github.io/RNAseq-workshop/](https://almutlue.github.io/RNAseq-workshop/)
+:::
+
+<br>
+
+#### Help
+- Ask one of us!
+- Discuss with your neighbour!
+- Check the vignettes ([DESeq2](https://bioconductor.org/packages/devel/bioc/vignettes/DESeq2/inst/doc/DESeq2.html) and [Seurat](https://satijalab.org/seurat/articles/pbmc3k_tutorial))
+- Ask an AI tool of your choice!
+
+![](img/github.svg){left="40" height="80"}
+
+[https://github.com/almutlue/RNAseq-workshop](https://github.com/almutlue/RNAseq-workshop)
+
+## Exercises{.smaller}
+
+:::: {.columns}
+
+::: {.column width="45%"}
+- Exercises are based on the single cell data of the [Spatial Skin Atlas](https://spatial-skin-atlas.cellgeni.sanger.ac.uk/)
+- Check the [publication](https://www.pnas.org/doi/10.1073/pnas.2313326120) by Garnier et.al.^[C. Ganier, P. Mazin, G. Herrera-Oropeza, X. Du-Harpur, M. Blakeley, J. Gabriel, A.V. Predeus, B. Cakir, M. Prete, N. Harun, J. Darrigrand, A. Haiser, S. Wyles, T. Shaw, S.A. Teichmann, M. Haniffa, F.M. Watt, & M.D. Lynch, Multiscale spatial mapping of cell populations across anatomical sites in healthy human skin and basal cell carcinoma, Proc. Natl. Acad. Sci. U.S.A. 121 (2) e2313326120, https://doi.org/10.1073/pnas.2313326120 (2024).] to answer the questions.
+- The dataset has been published as `AnnData` object (scverse-python) and was converted into `Seurat` object for this workshop
+- Exercises follow a standard [Seurat workflow]([Seurat](https://satijalab.org/seurat/articles/pbmc3k_tutorial)))
+
+:::
+
+::: {.column width="55%"}
+
+![](img/skin-atlas1.svg)
+
+:::
+
+::::
+
+## The Spatial Skin Atlas
+
+<br>
+
+![](img/skin-atlas2.svg)

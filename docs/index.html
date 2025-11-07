@@ -20,6 +20,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -100,10 +135,21 @@ ul.task-list li input[type="checkbox"] {
     <a class="nav-link" href="./about.html"> 
 <span class="menu-text">About</span></a>
   </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="./src/presentations/workshop.html"> 
-<span class="menu-text">Workshop</span></a>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-workshop" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Workshop</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-workshop">    
+        <li>
+    <a class="dropdown-item" href="./src/presentations/workshop.html">
+ <span class="dropdown-text">Day1</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="./src/presentations/workshop-day2.html">
+ <span class="dropdown-text">Day2</span></a>
+  </li>  
+    </ul>
+  </li>
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-exercises" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Exercises</span>
@@ -228,10 +274,10 @@ ul.task-list li input[type="checkbox"] {
 which are highly recommended for further in-depth learning.</p>
 <p>The single cell RNAseq exercises are <strong>adapted and simplified</strong> from the <em>SIB Single Cell Training</em> resources. 👉 https://sib-swiss.github.io/single-cell-training/</p>
 <p>Before starting, please ensure that <strong>all required R and Bioconductor packages are installed</strong> using the script provided in <code>src/install.R</code> or run in an R Terminal:</p>
-<pre><code>install.packages(c("BiocManager", "remotes", "dplyr"))
-BiocManager::install(c("SummarizedExperiment", "airway", "AnnotationDbi",
-                        "org.Mm.eg.db", "DESeq2", "Seurat", "GEOquery",
-                        "clusterProfiler", "vsn"))</code></pre>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="fu">c</span>(<span class="st">"BiocManager"</span>, <span class="st">"remotes"</span>, <span class="st">"dplyr"</span>))</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>BiocManager<span class="sc">::</span><span class="fu">install</span>(<span class="fu">c</span>(<span class="st">"SummarizedExperiment"</span>, <span class="st">"airway"</span>, <span class="st">"AnnotationDbi"</span>,</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>                        <span class="st">"org.Mm.eg.db"</span>, <span class="st">"DESeq2"</span>, <span class="st">"Seurat"</span>, <span class="st">"GEOquery"</span>,</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>                        <span class="st">"clusterProfiler"</span>, <span class="st">"vsn"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Basic familiarity with R (loading libraries, running scripts, inspecting objects) is useful, but not required.</p>
 <p>Across the exercises, you will:</p>
 <ul>

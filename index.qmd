@@ -16,12 +16,12 @@ The single cell RNAseq exercises are **adapted and simplified** from the *SIB Si
 
 Before starting, please ensure that **all required R and Bioconductor packages are installed** using the script provided in `src/install.R` or run in an R Terminal:
 
-````
+```r
 install.packages(c("BiocManager", "remotes", "dplyr"))
 BiocManager::install(c("SummarizedExperiment", "airway", "AnnotationDbi",
                         "org.Mm.eg.db", "DESeq2", "Seurat", "GEOquery",
                         "clusterProfiler", "vsn"))
-`````
+```
 
 Basic familiarity with R (loading libraries, running scripts, inspecting objects) is useful, but not required.
 

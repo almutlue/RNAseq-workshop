@@ -154,305 +154,32 @@
     "text": "Footnotes\n\n\nBlackmore, Stephen, et al. “Influenza infection triggers disease in a genetic model of experimental autoimmune encephalomyelitis.” Proceedings of the National Academy of Sciences 114.30 (2017): E6107-E6116.↩︎"
   },
   {
-    "objectID": "src/presentations/workshop.html#format",
-    "href": "src/presentations/workshop.html#format",
-    "title": "RNA-seq analysis",
+    "objectID": "src/presentations/workshop-day2.html#format",
+    "href": "src/presentations/workshop-day2.html#format",
+    "title": "Single Cell RNA-seq analysis",
     "section": "Format",
-    "text": "Format\n\n\n \n\nPresentations: background, theory, examples\nExercises: R-code + questions\nRECAP: group discussion + results\n\n\nAsk questions at anytime!"
+    "text": "Format\n\n\n \n\nLecture (Nils)\nExercises: R-code + questions\nRECAP: group discussion + results\n\n\nAsk questions at anytime!"
   },
   {
-    "objectID": "src/presentations/workshop.html#resources",
-    "href": "src/presentations/workshop.html#resources",
-    "title": "RNA-seq analysis",
+    "objectID": "src/presentations/workshop-day2.html#resources",
+    "href": "src/presentations/workshop-day2.html#resources",
+    "title": "Single Cell RNA-seq analysis",
     "section": "Resources",
     "text": "Resources\n\n\nhttps://almutlue.github.io/RNAseq-workshop/\n\n\nHelp\n\nAsk one of us!\nDiscuss with your neighbour!\nCheck the vignettes (DESeq2 and Seurat)\nAsk an AI tool of your choice!\n\n\nhttps://github.com/almutlue/RNAseq-workshop"
   },
   {
-    "objectID": "src/presentations/Functional_analysis.html#preprocessing",
-    "href": "src/presentations/Functional_analysis.html#preprocessing",
-    "title": "Functional Analysis",
-    "section": "Preprocessing",
-    "text": "Preprocessing\nWhy?\n\nSequencing depth varies across libraries\nHigh dynamic range of expression\nHigh number of genes vs low number of samples\n\nWhat?\n\nFiltering of low abundance genes\nNormalization\n\nLibrary size\nGene length"
+    "objectID": "src/presentations/workshop-day2.html#exercises",
+    "href": "src/presentations/workshop-day2.html#exercises",
+    "title": "Single Cell RNA-seq analysis",
+    "section": "Exercises",
+    "text": "Exercises\n\n\n\nExercises are based on the single cell data of the Spatial Skin Atlas\nCheck the publication by Garnier et.al.1 to answer the questions.\nThe dataset has been published as AnnData object (scverse-python) and was converted into Seurat object for this workshop\nExercises follow a standard Seurat workflow)\n\n\n\n\nC. Ganier, P. Mazin, G. Herrera-Oropeza, X. Du-Harpur, M. Blakeley, J. Gabriel, A.V. Predeus, B. Cakir, M. Prete, N. Harun, J. Darrigrand, A. Haiser, S. Wyles, T. Shaw, S.A. Teichmann, M. Haniffa, F.M. Watt, & M.D. Lynch, Multiscale spatial mapping of cell populations across anatomical sites in healthy human skin and basal cell carcinoma, Proc. Natl. Acad. Sci. U.S.A. 121 (2) e2313326120, https://doi.org/10.1073/pnas.2313326120 (2024)."
   },
   {
-    "objectID": "src/presentations/Functional_analysis.html#filtering",
-    "href": "src/presentations/Functional_analysis.html#filtering",
-    "title": "Functional Analysis",
-    "section": "Filtering",
-    "text": "Filtering\n\nSimple: Keep genes with more than X counts\n# Keep genes/rows that have &gt; 5 total counts \nse &lt;- se[rowSums(assay(se, \"counts\")) &gt; 5, ]\n\nAdvanced: Keep genes with more than X counts in at least Y samples\n# Keep genes/rows that have &gt; 3 counts in at least 3 sample\nse[rowSums(assay(se, \"counts\") &gt; 3) &gt;= 3, ]"
-  },
-  {
-    "objectID": "src/presentations/Functional_analysis.html#filtering---considerations",
-    "href": "src/presentations/Functional_analysis.html#filtering---considerations",
-    "title": "Functional Analysis",
-    "section": "Filtering - Considerations",
-    "text": "Filtering - Considerations\n\nEasier Interpretation: Not or lowly expressed genes are unlikely to be biological meaningful\nMore Power: Filtering reduces the number of statistical tests (multiple testing)\nBetter Model: More roboust estimation of mean-variance relationship\n\n\nTry different approaches and check the remaining gene number and type."
-  },
-  {
-    "objectID": "src/presentations/Functional_analysis.html#normalization---gene-length",
-    "href": "src/presentations/Functional_analysis.html#normalization---gene-length",
-    "title": "Functional Analysis",
-    "section": "Normalization - Gene Length",
-    "text": "Normalization - Gene Length\n\n\nMaking counts comparable across features (genes)"
-  },
-  {
-    "objectID": "src/presentations/Functional_analysis.html#normalization---sequencing-depth",
-    "href": "src/presentations/Functional_analysis.html#normalization---sequencing-depth",
-    "title": "Functional Analysis",
-    "section": "Normalization - Sequencing Depth",
-    "text": "Normalization - Sequencing Depth\n\n\nMaking counts comparable across samples"
-  },
-  {
-    "objectID": "src/presentations/Functional_analysis.html#normalization---approaches",
-    "href": "src/presentations/Functional_analysis.html#normalization---approaches",
-    "title": "Functional Analysis",
-    "section": "Normalization - Approaches",
-    "text": "Normalization - Approaches\n\n\n\n\nby library size (using gene length and sequencing depth)\nby distribution (group genes with similar expression)\nby testing (identify non-DE genes for normalization)\nusing controls (e.g. spike-ins, house-keepig genes)\nvariance-stabilizing transformation (stable variance across different means)"
-  },
-  {
-    "objectID": "src/presentations/Functional_analysis.html#section",
-    "href": "src/presentations/Functional_analysis.html#section",
-    "title": "Functional Analysis",
-    "section": "",
-    "text": "Normalization method\nDescription\nAccounted factors\nRecommendations for use\n\n\n\n\nCPM (counts per million)\ncounts scaled by total number of reads\nsequencing depth\ngene count comparisons between replicates; NOT for within sample or DE analysis\n\n\nTPM (transcripts per kilobase million)\ncounts per length of transcript (kb) per million reads mapped\nsequencing depth and gene length\ngene count comparisons within a sample or sample group; NOT for DE analysis\n\n\nRPKM/FPKM (reads/fragments per kilobase of exon per million reads/fragments mapped)\nsimilar to TPM\nsequencing depth and gene length\ngene count comparisons within a sample; NOT for between sample or DE analysis\n\n\n\n\nTable from hbctraing:Intro-to-DGE"
-  },
-  {
-    "objectID": "src/presentations/Functional_analysis.html#section-1",
-    "href": "src/presentations/Functional_analysis.html#section-1",
-    "title": "Functional Analysis",
-    "section": "",
-    "text": "Normalization method\nDescription\nAccounted factors\nRecommendations for use\n\n\n\n\nDESeq2’s median of ratios [1]\ncounts divided by sample-specific size factors determined by median ratio of gene counts relative to geometric mean per gene\nsequencing depth and RNA composition\ngene count comparisons between samples and for DE analysis; NOT for within sample comparisons\n\n\nEdgeR’s trimmed mean of M values (TMM) [2]\nuses a weighted trimmed mean of the log expression ratios between samples\nsequencing depth and RNA composition\ngene count comparisons between samples and for DE analysis; NOT for within sample comparisons\n\n\n\n\nTable from hbctraing:Intro-to-DGE"
-  },
-  {
-    "objectID": "src/presentations/Functional_analysis.html#recommendations",
-    "href": "src/presentations/Functional_analysis.html#recommendations",
-    "title": "Functional Analysis",
-    "section": "Recommendations",
-    "text": "Recommendations\n\nUnder the hood most tools use a mix of different normalisations (e.g. DESeq2::estimateSizeFactors())\nStandard tools for DGE (DESeq2, edgeR, Limma etc) use raw counts\nFor visualisation (PCA, clustering, heatmaps etc), use VST or RLOG\nFor own analysis with gene length correction, use TPM (maybe geTMM?)"
-  },
-  {
-    "objectID": "src/presentations/Functional_analysis.html#exploratory-data-analysis",
-    "href": "src/presentations/Functional_analysis.html#exploratory-data-analysis",
-    "title": "Functional Analysis",
-    "section": "Exploratory Data Analysis",
-    "text": "Exploratory Data Analysis\n\n\nInspect your data and identify and try to understand general pattern\n\n\nExamples\n\nClustering\nPrincipal Component Ananlysis"
-  },
-  {
-    "objectID": "src/presentations/Functional_analysis.html#principal-component-analysis",
-    "href": "src/presentations/Functional_analysis.html#principal-component-analysis",
-    "title": "Functional Analysis",
-    "section": "Principal Component Analysis",
-    "text": "Principal Component Analysis\n\n\n\n\nReduce complexity and understand main driver of variance\nMap data into low dimensional space (linear dimensionality reduction)\nInterpretable"
-  },
-  {
-    "objectID": "src/presentations/Functional_analysis.html#principal-component-analysis-1",
-    "href": "src/presentations/Functional_analysis.html#principal-component-analysis-1",
-    "title": "Functional Analysis",
-    "section": "Principal Component Analysis",
-    "text": "Principal Component Analysis\n First dimensions represent main axis of variance in data\n\n\nCzarnewski, P., Parigi, S.M., Sorini, C. et al. Conserved transcriptomic profile between mouse and human colitis allows unsupervised patient stratification. Nat Commun 10, 2892 (2019). https://doi.org/10.1038/s41467-019-10769-x"
-  },
-  {
-    "objectID": "src/presentations/Functional_analysis.html#principal-component-analysis-2",
-    "href": "src/presentations/Functional_analysis.html#principal-component-analysis-2",
-    "title": "Functional Analysis",
-    "section": "Principal Component Analysis",
-    "text": "Principal Component Analysis\n\n\n\nfrom https://glowingpython.blogspot.com/2011/07/pca-and-image-compression-with-numpy.html"
-  },
-  {
-    "objectID": "src/presentations/Functional_analysis.html#clustering",
-    "href": "src/presentations/Functional_analysis.html#clustering",
-    "title": "Functional Analysis",
-    "section": "Clustering",
-    "text": "Clustering\n\nClassify/group samples -&gt; understand sample similarities\nUnderstand pattern\nIdentify outlier\nTry different clustering methods and check cluster roboustness"
-  },
-  {
-    "objectID": "src/presentations/Functional_analysis.html#differential-expression",
-    "href": "src/presentations/Functional_analysis.html#differential-expression",
-    "title": "Functional Analysis",
-    "section": "Differential Expression",
-    "text": "Differential Expression\n\n\nUnderstanding systematic changes between experimental groups or conditions\n\n\n\n\n\nIdentify genes with differential expression pattern using between- and within-condition variability\nRequires biological replicates (multiple sample from each condition)\nMultiple R packages exist specific for DE analysis (e.g. edgeR, DESeq2)\n\n\n\n\n\nImage from hbctraing:Intro-to-DGE"
-  },
-  {
-    "objectID": "src/presentations/Functional_analysis.html#differential-expression-analysis",
-    "href": "src/presentations/Functional_analysis.html#differential-expression-analysis",
-    "title": "Functional Analysis",
-    "section": "Differential Expression Analysis",
-    "text": "Differential Expression Analysis\nRNAseq Data Challenges:\n\nLimited number of replicates per group\nMean-variance dependency\nSkewed count distribution\n\n\n\nImage from hbctraing:Intro-to-DGE"
-  },
-  {
-    "objectID": "src/presentations/Functional_analysis.html#deseq2",
-    "href": "src/presentations/Functional_analysis.html#deseq2",
-    "title": "Functional Analysis",
-    "section": "DESeq2",
-    "text": "DESeq2\n\n\n\n\nStatistical modeling\n\nmodel RNA-seq counts as negative binomial distribution\nborrow information from genes with similar expression pattern to estimate gene-wise dispersion\nFit a Generalized linear model for each gene and run Wald test\n\n\n\n\n\nImage from hbctraing:Intro-to-DGE"
-  },
-  {
-    "objectID": "src/presentations/Functional_analysis.html#the-design-matrix-and-contrasts",
-    "href": "src/presentations/Functional_analysis.html#the-design-matrix-and-contrasts",
-    "title": "Functional Analysis",
-    "section": "The Design Matrix and Contrasts",
-    "text": "The Design Matrix and Contrasts\n\nDesign matrix\n\nDescribes the model coefficients\nInclude variable of interest and all variables to account for\n\ndesignFormula = ~ sex + time\n\nContrasts\n\nDescribes the comparison of interest (reference variable and levels to compare)\n\nresults(dds, contrast = c(\"time\", \"Day8\", \"Day0\"))"
-  },
-  {
-    "objectID": "src/presentations/Functional_analysis.html#de-results",
-    "href": "src/presentations/Functional_analysis.html#de-results",
-    "title": "Functional Analysis",
-    "section": "DE Results",
-    "text": "DE Results\n\n\n\nHeatmap\n\n\nVolcano plot"
-  },
-  {
-    "objectID": "src/presentations/R_basics.html#language-vs.-tooling",
-    "href": "src/presentations/R_basics.html#language-vs.-tooling",
-    "title": "R Basics",
-    "section": "Language vs. Tooling",
-    "text": "Language vs. Tooling\n\n\nWhat is R?\n\nProgramming Language\nStatistics\nGraphics"
-  },
-  {
-    "objectID": "src/presentations/R_basics.html#language-vs.-tooling-1",
-    "href": "src/presentations/R_basics.html#language-vs.-tooling-1",
-    "title": "R Basics",
-    "section": "Language vs. Tooling",
-    "text": "Language vs. Tooling\n\n\nAnd RStudio?\n\nIntegrated Development Environment (IDE)\nDevelopment interface with:\n\nEditor\nObject viewer\nGraphics preview\nFile browser\nMany more"
-  },
-  {
-    "objectID": "src/presentations/R_basics.html#running-r",
-    "href": "src/presentations/R_basics.html#running-r",
-    "title": "R Basics",
-    "section": "Running R",
-    "text": "Running R\nR\nR version 4.3.3 (2024-02-29) -- \"Angel Food Cake\"\nCopyright (C) 2024 The R Foundation for Statistical Computing\nPlatform: x86_64-pc-linux-gnu (64-bit)\n\nR is free software and comes with ABSOLUTELY NO WARRANTY.\nYou are welcome to redistribute it under certain conditions.\nType 'license()' or 'licence()' for distribution details.\n\n  Natural language support but running in an English locale\n\nR is a collaborative project with many contributors.\nType 'contributors()' for more information and\n'citation()' on how to cite R or R packages in publications.\n\nType 'demo()' for some demos, 'help()' for on-line help, or\n'help.start()' for an HTML browser interface to help.\nType 'q()' to quit R."
-  },
-  {
-    "objectID": "src/presentations/R_basics.html#running-rstudio",
-    "href": "src/presentations/R_basics.html#running-rstudio",
-    "title": "R Basics",
-    "section": "Running RStudio",
-    "text": "Running RStudio\n\n\n\n4 panes (views)\n\nR terminal\nScript editor\nObject browser\nFile browser\n\n\n\n\n\n\nimage from hbctrainings - Intro to R"
-  },
-  {
-    "objectID": "src/presentations/R_basics.html#r-scripts-and-extenstions",
-    "href": "src/presentations/R_basics.html#r-scripts-and-extenstions",
-    "title": "R Basics",
-    "section": "R scripts and extenstions",
-    "text": "R scripts and extenstions\n\n\nWhy?\n\nRe-running code\n\nDebugging !\n\nTracking code/execution\nSharing code\n\n\n\nFlavors\n\n.R\n\nplain R code (comments can be marked by #)\nRscript my-script.R\n\n.rmd or .RMarkdown\n\nmix of R code chunks with output and markdown (text)\ncan be compiled (rendered) into html or pdf\n\n.qmd\n\n☝️ with diverse code chunks (e.g. python)"
-  },
-  {
-    "objectID": "src/presentations/R_basics.html#demo-rstudio",
-    "href": "src/presentations/R_basics.html#demo-rstudio",
-    "title": "R Basics",
-    "section": "Demo RStudio",
-    "text": "Demo RStudio"
-  },
-  {
-    "objectID": "src/presentations/R_basics.html#r-basic-concepts---syntax",
-    "href": "src/presentations/R_basics.html#r-basic-concepts---syntax",
-    "title": "R Basics",
-    "section": "R Basic concepts - Syntax",
-    "text": "R Basic concepts - Syntax\n\n# starts a comment\n&lt;- is used for variable assignment\n= is used for argument assignment\n\nExample\n# Show some examples\nfoo &lt;- c(2,4,5)\nbar &lt;- vec_fun(arg1=foo)"
-  },
-  {
-    "objectID": "src/presentations/R_basics.html#r-basic-concepts---packages",
-    "href": "src/presentations/R_basics.html#r-basic-concepts---packages",
-    "title": "R Basics",
-    "section": "R Basic concepts - Packages",
-    "text": "R Basic concepts - Packages\n“Base R” provides you with core functionalities, but most code is shared as R package/library.\nAnyone can write an R package and use by themselves or share. Standard ways of distributing packages are github or package repositories such as CRAN or Bioconductor"
-  },
-  {
-    "objectID": "src/presentations/R_basics.html#install-a-package",
-    "href": "src/presentations/R_basics.html#install-a-package",
-    "title": "R Basics",
-    "section": "Install a package",
-    "text": "Install a package\n\n# build-in install\ninstall.packages(\"BiocManager\")\n\n# BiocManager install \nBiocManager::install(\"SummarizedExperiment\")\n\n# pak package manager\npak::pkg_install(\"tibble\")\n\n# Load package\nlibrary(DESeq2)\n ❗ Most Bioconductor packages can not be installed via install.packages(), but only with BiocManager or pak."
-  },
-  {
-    "objectID": "src/presentations/R_basics.html#bioconductor",
-    "href": "src/presentations/R_basics.html#bioconductor",
-    "title": "R Basics",
-    "section": "Bioconductor",
-    "text": "Bioconductor\n\nEcosytem for bioinformatics R packages (origin in genomics 🧬)\nStandardized data formats and classes (interoperability)\nVersioning and testing\nDocumentation and standardized workflows (vignettes 📄)"
-  },
-  {
-    "objectID": "src/presentations/R_basics.html#summarizedexperiment-class",
-    "href": "src/presentations/R_basics.html#summarizedexperiment-class",
-    "title": "R Basics",
-    "section": "SummarizedExperiment class",
-    "text": "SummarizedExperiment class\n\n\n\nStandardized structure (most Bioconductor packages use this or one of its derivatives)\nLink between data matrix (or matrices) and metadata\nAims to keeps data and metadata in sync (e.g. keep metadat in order after filtering)"
-  },
-  {
-    "objectID": "src/presentations/R_basics.html#summarizedexperiment-example",
-    "href": "src/presentations/R_basics.html#summarizedexperiment-example",
-    "title": "R Basics",
-    "section": "SummarizedExperiment example",
-    "text": "SummarizedExperiment example\n\nlibrary(SummarizedExperiment)\ndata(airway, package=\"airway\")\nse &lt;- airway\nse\nclass: RangedSummarizedExperiment \ndim: 200 6 \nmetadata(0):\nassays(1): counts\nrownames: NULL\nrowData names(1): feature_id\ncolnames(6): A B ... E F\ncolData names(1): Treatment"
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "RNAseq-workshop exercises",
-    "section": "",
-    "text": "Overview\nThese exercises and presentations are part of a two-day RNA-seq data analysis workshop presented at the Young Investigators Symposium of the Skintegrity Network. They provide a hands-on introduction to processing, exploring, and analyzing RNA-seq count data using R and Bioconductor.\nThe content is adapted and simplified from the Carpentries Incubator course\n“RNA-seq Analysis with Bioconductor”\n👉 https://carpentries-incubator.github.io/bioc-rnaseq/\nwhich are highly recommended for further in-depth learning.\nThe single cell RNAseq exercises are adapted and simplified from the SIB Single Cell Training resources. 👉 https://sib-swiss.github.io/single-cell-training/\nBefore starting, please ensure that all required R and Bioconductor packages are installed using the script provided in src/install.R or run in an R Terminal:\ninstall.packages(c(\"BiocManager\", \"remotes\", \"dplyr\"))\nBiocManager::install(c(\"SummarizedExperiment\", \"airway\", \"AnnotationDbi\",\n                        \"org.Mm.eg.db\", \"DESeq2\", \"Seurat\", \"GEOquery\",\n                        \"clusterProfiler\", \"vsn\"))\nBasic familiarity with R (loading libraries, running scripts, inspecting objects) is useful, but not required.\nAcross the exercises, you will:\n\n✅ Load RNA-seq count data\n\n✅ Create Bioconductor data objects\n\n✅ Perform exploratory data analysis and quality control\n\n✅ Run differential expression analysis\n\n✅ Conduct functional enrichment\n\nThese exercises are intentionally short and guided to complement the workshop presentation and group discussions."
-  },
-  {
-    "objectID": "src/presentations/Enrichment_analysis.html#motivation",
-    "href": "src/presentations/Enrichment_analysis.html#motivation",
-    "title": "Enrichment analysis",
-    "section": "Motivation",
-    "text": "Motivation\n\n\n\nWhat to do with your list of DE genes?\nInterpretation can be difficult with many DE genes\nAre our DE genes enriched for a biological function, pathway, TF regulation?"
-  },
-  {
-    "objectID": "src/presentations/Enrichment_analysis.html#mapping-genes-to-gene-sets-with-specific-biology",
-    "href": "src/presentations/Enrichment_analysis.html#mapping-genes-to-gene-sets-with-specific-biology",
-    "title": "Enrichment analysis",
-    "section": "Mapping genes to gene sets with specific biology",
-    "text": "Mapping genes to gene sets with specific biology\n\nRegrouping genes together in meaningful sets\n\nSame pathway\nSame location in the cell\nSame molecular function"
-  },
-  {
-    "objectID": "src/presentations/Enrichment_analysis.html#the-universe-matters",
-    "href": "src/presentations/Enrichment_analysis.html#the-universe-matters",
-    "title": "Enrichment analysis",
-    "section": "The universe matters",
-    "text": "The universe matters\n\nNumerous gene set collections available\n\nGene Ontologies\nReactome\nKEGG\nMSigDB\nCustom gene sets (literature, tentative annotation)\nmany more …"
-  },
-  {
-    "objectID": "src/presentations/Enrichment_analysis.html#the-universe-matters-1",
-    "href": "src/presentations/Enrichment_analysis.html#the-universe-matters-1",
-    "title": "Enrichment analysis",
-    "section": "The universe matters",
-    "text": "The universe matters\nMsigDB: https://www.gsea-msigdb.org/gsea/msigdb/index.jsp"
-  },
-  {
-    "objectID": "src/presentations/Enrichment_analysis.html#computing-enrichment",
-    "href": "src/presentations/Enrichment_analysis.html#computing-enrichment",
-    "title": "Enrichment analysis",
-    "section": "Computing Enrichment",
-    "text": "Computing Enrichment\n\n\nZhao, K., Rhee Y.R. Trends in Genetics (2023)"
-  },
-  {
-    "objectID": "src/presentations/Enrichment_analysis.html#overrepresentation-analysis",
-    "href": "src/presentations/Enrichment_analysis.html#overrepresentation-analysis",
-    "title": "Enrichment analysis",
-    "section": "Overrepresentation analysis",
-    "text": "Overrepresentation analysis\nBasically a Fisher’s exact test with p-value correction\n\n\n\n\n\n\nDE\nNot DE\n\n\n\n\nin gene set\nA\nB\n\n\nnot in gene set\nC\nD\n\n\n\n\n\nN = A + B + C + D\nM = A + B\nn = A + C\nk = A\n\\[\np = 1- \\sum_{i=0}^{k-1}\n\\frac{\n\\binom{M}{i}\n\\binom{N-M}{n-i}\n}{\n\\binom{N}{n}\n}\n\\]"
-  },
-  {
-    "objectID": "src/presentations/Enrichment_analysis.html#gene-set-enrichment-analysis-gsea",
-    "href": "src/presentations/Enrichment_analysis.html#gene-set-enrichment-analysis-gsea",
-    "title": "Enrichment analysis",
-    "section": "Gene Set Enrichment Analysis (GSEA)",
-    "text": "Gene Set Enrichment Analysis (GSEA)\n\nBased on a ranking along a continous measure (e.g. logFC)\nNo cutoff for DE versus not DE needed\nPermutation scheme to test for significance"
-  },
-  {
-    "objectID": "src/presentations/Enrichment_analysis.html#clusterprofiler",
-    "href": "src/presentations/Enrichment_analysis.html#clusterprofiler",
-    "title": "Enrichment analysis",
-    "section": "clusterProfiler",
-    "text": "clusterProfiler\n\nClusterProfiler: user-friendly R package for enrichment analysis\nMultiple enrichment detection algorithms, several databases and visulaizations implemented\nFor more details check out their vignette"
-  },
-  {
-    "objectID": "src/presentations/Enrichment_analysis.html#clusterprofiler-1",
-    "href": "src/presentations/Enrichment_analysis.html#clusterprofiler-1",
-    "title": "Enrichment analysis",
-    "section": "clusterProfiler",
-    "text": "clusterProfiler\n\n\nego &lt;- enrichGO(\n  gene          = gene_list,\n  OrgDb         = org.Mm.eg.db,\n  keyType       = \"ENTREZID\",\n  ont           = \"BP\",\n  pAdjustMethod = \"BH\",\n  qvalueCutoff  = 0.05\n)\n\ngse &lt;- gseGO(\n  geneList      = gene_list, \n  ont           = \"ALL\", \n  keyType       = \"ENSEMBL\", \n  nPerm         = 10000, \n  minGSSize     = 3, \n  maxGSSize     = 800, \n  pvalueCutoff  = 0.05, \n  OrgDb         = org.Mm.eg.db, \n  pAdjustMethod = \"none\"\n)"
+    "objectID": "src/presentations/workshop-day2.html#the-spatial-skin-atlas",
+    "href": "src/presentations/workshop-day2.html#the-spatial-skin-atlas",
+    "title": "Single Cell RNA-seq analysis",
+    "section": "The Spatial Skin Atlas",
+    "text": "The Spatial Skin Atlas"
   },
   {
     "objectID": "src/presentations/RNAseq_basics.html#the-central-dogma-of-molecular-biology",
@@ -635,6 +362,307 @@
     "title": "Introduction to RNA-Seq",
     "section": "Downstream Analysis",
     "text": "Downstream Analysis"
+  },
+  {
+    "objectID": "src/presentations/Enrichment_analysis.html#motivation",
+    "href": "src/presentations/Enrichment_analysis.html#motivation",
+    "title": "Enrichment analysis",
+    "section": "Motivation",
+    "text": "Motivation\n\n\n\nWhat to do with your list of DE genes?\nInterpretation can be difficult with many DE genes\nAre our DE genes enriched for a biological function, pathway, TF regulation?"
+  },
+  {
+    "objectID": "src/presentations/Enrichment_analysis.html#mapping-genes-to-gene-sets-with-specific-biology",
+    "href": "src/presentations/Enrichment_analysis.html#mapping-genes-to-gene-sets-with-specific-biology",
+    "title": "Enrichment analysis",
+    "section": "Mapping genes to gene sets with specific biology",
+    "text": "Mapping genes to gene sets with specific biology\n\nRegrouping genes together in meaningful sets\n\nSame pathway\nSame location in the cell\nSame molecular function"
+  },
+  {
+    "objectID": "src/presentations/Enrichment_analysis.html#the-universe-matters",
+    "href": "src/presentations/Enrichment_analysis.html#the-universe-matters",
+    "title": "Enrichment analysis",
+    "section": "The universe matters",
+    "text": "The universe matters\n\nNumerous gene set collections available\n\nGene Ontologies\nReactome\nKEGG\nMSigDB\nCustom gene sets (literature, tentative annotation)\nmany more …"
+  },
+  {
+    "objectID": "src/presentations/Enrichment_analysis.html#the-universe-matters-1",
+    "href": "src/presentations/Enrichment_analysis.html#the-universe-matters-1",
+    "title": "Enrichment analysis",
+    "section": "The universe matters",
+    "text": "The universe matters\nMsigDB: https://www.gsea-msigdb.org/gsea/msigdb/index.jsp"
+  },
+  {
+    "objectID": "src/presentations/Enrichment_analysis.html#computing-enrichment",
+    "href": "src/presentations/Enrichment_analysis.html#computing-enrichment",
+    "title": "Enrichment analysis",
+    "section": "Computing Enrichment",
+    "text": "Computing Enrichment\n\n\nZhao, K., Rhee Y.R. Trends in Genetics (2023)"
+  },
+  {
+    "objectID": "src/presentations/Enrichment_analysis.html#overrepresentation-analysis",
+    "href": "src/presentations/Enrichment_analysis.html#overrepresentation-analysis",
+    "title": "Enrichment analysis",
+    "section": "Overrepresentation analysis",
+    "text": "Overrepresentation analysis\nBasically a Fisher’s exact test with p-value correction\n\n\n\n\n\n\nDE\nNot DE\n\n\n\n\nin gene set\nA\nB\n\n\nnot in gene set\nC\nD\n\n\n\n\n\nN = A + B + C + D\nM = A + B\nn = A + C\nk = A\n\\[\np = 1- \\sum_{i=0}^{k-1}\n\\frac{\n\\binom{M}{i}\n\\binom{N-M}{n-i}\n}{\n\\binom{N}{n}\n}\n\\]"
+  },
+  {
+    "objectID": "src/presentations/Enrichment_analysis.html#gene-set-enrichment-analysis-gsea",
+    "href": "src/presentations/Enrichment_analysis.html#gene-set-enrichment-analysis-gsea",
+    "title": "Enrichment analysis",
+    "section": "Gene Set Enrichment Analysis (GSEA)",
+    "text": "Gene Set Enrichment Analysis (GSEA)\n\nBased on a ranking along a continous measure (e.g. logFC)\nNo cutoff for DE versus not DE needed\nPermutation scheme to test for significance"
+  },
+  {
+    "objectID": "src/presentations/Enrichment_analysis.html#clusterprofiler",
+    "href": "src/presentations/Enrichment_analysis.html#clusterprofiler",
+    "title": "Enrichment analysis",
+    "section": "clusterProfiler",
+    "text": "clusterProfiler\n\nClusterProfiler: user-friendly R package for enrichment analysis\nMultiple enrichment detection algorithms, several databases and visulaizations implemented\nFor more details check out their vignette"
+  },
+  {
+    "objectID": "src/presentations/Enrichment_analysis.html#clusterprofiler-1",
+    "href": "src/presentations/Enrichment_analysis.html#clusterprofiler-1",
+    "title": "Enrichment analysis",
+    "section": "clusterProfiler",
+    "text": "clusterProfiler\n\n\nego &lt;- enrichGO(\n  gene          = gene_list,\n  OrgDb         = org.Mm.eg.db,\n  keyType       = \"ENTREZID\",\n  ont           = \"BP\",\n  pAdjustMethod = \"BH\",\n  qvalueCutoff  = 0.05\n)\n\ngse &lt;- gseGO(\n  geneList      = gene_list, \n  ont           = \"ALL\", \n  keyType       = \"ENSEMBL\", \n  nPerm         = 10000, \n  minGSSize     = 3, \n  maxGSSize     = 800, \n  pvalueCutoff  = 0.05, \n  OrgDb         = org.Mm.eg.db, \n  pAdjustMethod = \"none\"\n)"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "RNAseq-workshop exercises",
+    "section": "",
+    "text": "Overview\nThese exercises and presentations are part of a two-day RNA-seq data analysis workshop presented at the Young Investigators Symposium of the Skintegrity Network. They provide a hands-on introduction to processing, exploring, and analyzing RNA-seq count data using R and Bioconductor.\nThe content is adapted and simplified from the Carpentries Incubator course\n“RNA-seq Analysis with Bioconductor”\n👉 https://carpentries-incubator.github.io/bioc-rnaseq/\nwhich are highly recommended for further in-depth learning.\nThe single cell RNAseq exercises are adapted and simplified from the SIB Single Cell Training resources. 👉 https://sib-swiss.github.io/single-cell-training/\nBefore starting, please ensure that all required R and Bioconductor packages are installed using the script provided in src/install.R or run in an R Terminal:\ninstall.packages(c(\"BiocManager\", \"remotes\", \"dplyr\"))\nBiocManager::install(c(\"SummarizedExperiment\", \"airway\", \"AnnotationDbi\",\n                        \"org.Mm.eg.db\", \"DESeq2\", \"Seurat\", \"GEOquery\",\n                        \"clusterProfiler\", \"vsn\"))\nBasic familiarity with R (loading libraries, running scripts, inspecting objects) is useful, but not required.\nAcross the exercises, you will:\n\n✅ Load RNA-seq count data\n\n✅ Create Bioconductor data objects\n\n✅ Perform exploratory data analysis and quality control\n\n✅ Run differential expression analysis\n\n✅ Conduct functional enrichment\n\nThese exercises are intentionally short and guided to complement the workshop presentation and group discussions."
+  },
+  {
+    "objectID": "src/presentations/R_basics.html#language-vs.-tooling",
+    "href": "src/presentations/R_basics.html#language-vs.-tooling",
+    "title": "R Basics",
+    "section": "Language vs. Tooling",
+    "text": "Language vs. Tooling\n\n\nWhat is R?\n\nProgramming Language\nStatistics\nGraphics"
+  },
+  {
+    "objectID": "src/presentations/R_basics.html#language-vs.-tooling-1",
+    "href": "src/presentations/R_basics.html#language-vs.-tooling-1",
+    "title": "R Basics",
+    "section": "Language vs. Tooling",
+    "text": "Language vs. Tooling\n\n\nAnd RStudio?\n\nIntegrated Development Environment (IDE)\nDevelopment interface with:\n\nEditor\nObject viewer\nGraphics preview\nFile browser\nMany more"
+  },
+  {
+    "objectID": "src/presentations/R_basics.html#running-r",
+    "href": "src/presentations/R_basics.html#running-r",
+    "title": "R Basics",
+    "section": "Running R",
+    "text": "Running R\nR\nR version 4.3.3 (2024-02-29) -- \"Angel Food Cake\"\nCopyright (C) 2024 The R Foundation for Statistical Computing\nPlatform: x86_64-pc-linux-gnu (64-bit)\n\nR is free software and comes with ABSOLUTELY NO WARRANTY.\nYou are welcome to redistribute it under certain conditions.\nType 'license()' or 'licence()' for distribution details.\n\n  Natural language support but running in an English locale\n\nR is a collaborative project with many contributors.\nType 'contributors()' for more information and\n'citation()' on how to cite R or R packages in publications.\n\nType 'demo()' for some demos, 'help()' for on-line help, or\n'help.start()' for an HTML browser interface to help.\nType 'q()' to quit R."
+  },
+  {
+    "objectID": "src/presentations/R_basics.html#running-rstudio",
+    "href": "src/presentations/R_basics.html#running-rstudio",
+    "title": "R Basics",
+    "section": "Running RStudio",
+    "text": "Running RStudio\n\n\n\n4 panes (views)\n\nR terminal\nScript editor\nObject browser\nFile browser\n\n\n\n\n\n\nimage from hbctrainings - Intro to R"
+  },
+  {
+    "objectID": "src/presentations/R_basics.html#r-scripts-and-extenstions",
+    "href": "src/presentations/R_basics.html#r-scripts-and-extenstions",
+    "title": "R Basics",
+    "section": "R scripts and extenstions",
+    "text": "R scripts and extenstions\n\n\nWhy?\n\nRe-running code\n\nDebugging !\n\nTracking code/execution\nSharing code\n\n\n\nFlavors\n\n.R\n\nplain R code (comments can be marked by #)\nRscript my-script.R\n\n.rmd or .RMarkdown\n\nmix of R code chunks with output and markdown (text)\ncan be compiled (rendered) into html or pdf\n\n.qmd\n\n☝️ with diverse code chunks (e.g. python)"
+  },
+  {
+    "objectID": "src/presentations/R_basics.html#demo-rstudio",
+    "href": "src/presentations/R_basics.html#demo-rstudio",
+    "title": "R Basics",
+    "section": "Demo RStudio",
+    "text": "Demo RStudio"
+  },
+  {
+    "objectID": "src/presentations/R_basics.html#r-basic-concepts---syntax",
+    "href": "src/presentations/R_basics.html#r-basic-concepts---syntax",
+    "title": "R Basics",
+    "section": "R Basic concepts - Syntax",
+    "text": "R Basic concepts - Syntax\n\n# starts a comment\n&lt;- is used for variable assignment\n= is used for argument assignment\n\nExample\n# Show some examples\nfoo &lt;- c(2,4,5)\nbar &lt;- vec_fun(arg1=foo)"
+  },
+  {
+    "objectID": "src/presentations/R_basics.html#r-basic-concepts---packages",
+    "href": "src/presentations/R_basics.html#r-basic-concepts---packages",
+    "title": "R Basics",
+    "section": "R Basic concepts - Packages",
+    "text": "R Basic concepts - Packages\n“Base R” provides you with core functionalities, but most code is shared as R package/library.\nAnyone can write an R package and use by themselves or share. Standard ways of distributing packages are github or package repositories such as CRAN or Bioconductor"
+  },
+  {
+    "objectID": "src/presentations/R_basics.html#install-a-package",
+    "href": "src/presentations/R_basics.html#install-a-package",
+    "title": "R Basics",
+    "section": "Install a package",
+    "text": "Install a package\n\n# build-in install\ninstall.packages(\"BiocManager\")\n\n# BiocManager install \nBiocManager::install(\"SummarizedExperiment\")\n\n# pak package manager\npak::pkg_install(\"tibble\")\n\n# Load package\nlibrary(DESeq2)\n ❗ Most Bioconductor packages can not be installed via install.packages(), but only with BiocManager or pak."
+  },
+  {
+    "objectID": "src/presentations/R_basics.html#bioconductor",
+    "href": "src/presentations/R_basics.html#bioconductor",
+    "title": "R Basics",
+    "section": "Bioconductor",
+    "text": "Bioconductor\n\nEcosytem for bioinformatics R packages (origin in genomics 🧬)\nStandardized data formats and classes (interoperability)\nVersioning and testing\nDocumentation and standardized workflows (vignettes 📄)"
+  },
+  {
+    "objectID": "src/presentations/R_basics.html#summarizedexperiment-class",
+    "href": "src/presentations/R_basics.html#summarizedexperiment-class",
+    "title": "R Basics",
+    "section": "SummarizedExperiment class",
+    "text": "SummarizedExperiment class\n\n\n\nStandardized structure (most Bioconductor packages use this or one of its derivatives)\nLink between data matrix (or matrices) and metadata\nAims to keeps data and metadata in sync (e.g. keep metadat in order after filtering)"
+  },
+  {
+    "objectID": "src/presentations/R_basics.html#summarizedexperiment-example",
+    "href": "src/presentations/R_basics.html#summarizedexperiment-example",
+    "title": "R Basics",
+    "section": "SummarizedExperiment example",
+    "text": "SummarizedExperiment example\n\nlibrary(SummarizedExperiment)\ndata(airway, package=\"airway\")\nse &lt;- airway\nse\nclass: RangedSummarizedExperiment \ndim: 200 6 \nmetadata(0):\nassays(1): counts\nrownames: NULL\nrowData names(1): feature_id\ncolnames(6): A B ... E F\ncolData names(1): Treatment"
+  },
+  {
+    "objectID": "src/presentations/Functional_analysis.html#preprocessing",
+    "href": "src/presentations/Functional_analysis.html#preprocessing",
+    "title": "Functional Analysis",
+    "section": "Preprocessing",
+    "text": "Preprocessing\nWhy?\n\nSequencing depth varies across libraries\nHigh dynamic range of expression\nHigh number of genes vs low number of samples\n\nWhat?\n\nFiltering of low abundance genes\nNormalization\n\nLibrary size\nGene length"
+  },
+  {
+    "objectID": "src/presentations/Functional_analysis.html#filtering",
+    "href": "src/presentations/Functional_analysis.html#filtering",
+    "title": "Functional Analysis",
+    "section": "Filtering",
+    "text": "Filtering\n\nSimple: Keep genes with more than X counts\n# Keep genes/rows that have &gt; 5 total counts \nse &lt;- se[rowSums(assay(se, \"counts\")) &gt; 5, ]\n\nAdvanced: Keep genes with more than X counts in at least Y samples\n# Keep genes/rows that have &gt; 3 counts in at least 3 sample\nse[rowSums(assay(se, \"counts\") &gt; 3) &gt;= 3, ]"
+  },
+  {
+    "objectID": "src/presentations/Functional_analysis.html#filtering---considerations",
+    "href": "src/presentations/Functional_analysis.html#filtering---considerations",
+    "title": "Functional Analysis",
+    "section": "Filtering - Considerations",
+    "text": "Filtering - Considerations\n\nEasier Interpretation: Not or lowly expressed genes are unlikely to be biological meaningful\nMore Power: Filtering reduces the number of statistical tests (multiple testing)\nBetter Model: More roboust estimation of mean-variance relationship\n\n\nTry different approaches and check the remaining gene number and type."
+  },
+  {
+    "objectID": "src/presentations/Functional_analysis.html#normalization---gene-length",
+    "href": "src/presentations/Functional_analysis.html#normalization---gene-length",
+    "title": "Functional Analysis",
+    "section": "Normalization - Gene Length",
+    "text": "Normalization - Gene Length\n\n\nMaking counts comparable across features (genes)"
+  },
+  {
+    "objectID": "src/presentations/Functional_analysis.html#normalization---sequencing-depth",
+    "href": "src/presentations/Functional_analysis.html#normalization---sequencing-depth",
+    "title": "Functional Analysis",
+    "section": "Normalization - Sequencing Depth",
+    "text": "Normalization - Sequencing Depth\n\n\nMaking counts comparable across samples"
+  },
+  {
+    "objectID": "src/presentations/Functional_analysis.html#normalization---approaches",
+    "href": "src/presentations/Functional_analysis.html#normalization---approaches",
+    "title": "Functional Analysis",
+    "section": "Normalization - Approaches",
+    "text": "Normalization - Approaches\n\n\n\n\nby library size (using gene length and sequencing depth)\nby distribution (group genes with similar expression)\nby testing (identify non-DE genes for normalization)\nusing controls (e.g. spike-ins, house-keepig genes)\nvariance-stabilizing transformation (stable variance across different means)"
+  },
+  {
+    "objectID": "src/presentations/Functional_analysis.html#section",
+    "href": "src/presentations/Functional_analysis.html#section",
+    "title": "Functional Analysis",
+    "section": "",
+    "text": "Normalization method\nDescription\nAccounted factors\nRecommendations for use\n\n\n\n\nCPM (counts per million)\ncounts scaled by total number of reads\nsequencing depth\ngene count comparisons between replicates; NOT for within sample or DE analysis\n\n\nTPM (transcripts per kilobase million)\ncounts per length of transcript (kb) per million reads mapped\nsequencing depth and gene length\ngene count comparisons within a sample or sample group; NOT for DE analysis\n\n\nRPKM/FPKM (reads/fragments per kilobase of exon per million reads/fragments mapped)\nsimilar to TPM\nsequencing depth and gene length\ngene count comparisons within a sample; NOT for between sample or DE analysis\n\n\n\n\nTable from hbctraing:Intro-to-DGE"
+  },
+  {
+    "objectID": "src/presentations/Functional_analysis.html#section-1",
+    "href": "src/presentations/Functional_analysis.html#section-1",
+    "title": "Functional Analysis",
+    "section": "",
+    "text": "Normalization method\nDescription\nAccounted factors\nRecommendations for use\n\n\n\n\nDESeq2’s median of ratios [1]\ncounts divided by sample-specific size factors determined by median ratio of gene counts relative to geometric mean per gene\nsequencing depth and RNA composition\ngene count comparisons between samples and for DE analysis; NOT for within sample comparisons\n\n\nEdgeR’s trimmed mean of M values (TMM) [2]\nuses a weighted trimmed mean of the log expression ratios between samples\nsequencing depth and RNA composition\ngene count comparisons between samples and for DE analysis; NOT for within sample comparisons\n\n\n\n\nTable from hbctraing:Intro-to-DGE"
+  },
+  {
+    "objectID": "src/presentations/Functional_analysis.html#recommendations",
+    "href": "src/presentations/Functional_analysis.html#recommendations",
+    "title": "Functional Analysis",
+    "section": "Recommendations",
+    "text": "Recommendations\n\nUnder the hood most tools use a mix of different normalisations (e.g. DESeq2::estimateSizeFactors())\nStandard tools for DGE (DESeq2, edgeR, Limma etc) use raw counts\nFor visualisation (PCA, clustering, heatmaps etc), use VST or RLOG\nFor own analysis with gene length correction, use TPM (maybe geTMM?)"
+  },
+  {
+    "objectID": "src/presentations/Functional_analysis.html#exploratory-data-analysis",
+    "href": "src/presentations/Functional_analysis.html#exploratory-data-analysis",
+    "title": "Functional Analysis",
+    "section": "Exploratory Data Analysis",
+    "text": "Exploratory Data Analysis\n\n\nInspect your data and identify and try to understand general pattern\n\n\nExamples\n\nClustering\nPrincipal Component Ananlysis"
+  },
+  {
+    "objectID": "src/presentations/Functional_analysis.html#principal-component-analysis",
+    "href": "src/presentations/Functional_analysis.html#principal-component-analysis",
+    "title": "Functional Analysis",
+    "section": "Principal Component Analysis",
+    "text": "Principal Component Analysis\n\n\n\n\nReduce complexity and understand main driver of variance\nMap data into low dimensional space (linear dimensionality reduction)\nInterpretable"
+  },
+  {
+    "objectID": "src/presentations/Functional_analysis.html#principal-component-analysis-1",
+    "href": "src/presentations/Functional_analysis.html#principal-component-analysis-1",
+    "title": "Functional Analysis",
+    "section": "Principal Component Analysis",
+    "text": "Principal Component Analysis\n First dimensions represent main axis of variance in data\n\n\nCzarnewski, P., Parigi, S.M., Sorini, C. et al. Conserved transcriptomic profile between mouse and human colitis allows unsupervised patient stratification. Nat Commun 10, 2892 (2019). https://doi.org/10.1038/s41467-019-10769-x"
+  },
+  {
+    "objectID": "src/presentations/Functional_analysis.html#principal-component-analysis-2",
+    "href": "src/presentations/Functional_analysis.html#principal-component-analysis-2",
+    "title": "Functional Analysis",
+    "section": "Principal Component Analysis",
+    "text": "Principal Component Analysis\n\n\n\nfrom https://glowingpython.blogspot.com/2011/07/pca-and-image-compression-with-numpy.html"
+  },
+  {
+    "objectID": "src/presentations/Functional_analysis.html#clustering",
+    "href": "src/presentations/Functional_analysis.html#clustering",
+    "title": "Functional Analysis",
+    "section": "Clustering",
+    "text": "Clustering\n\nClassify/group samples -&gt; understand sample similarities\nUnderstand pattern\nIdentify outlier\nTry different clustering methods and check cluster roboustness"
+  },
+  {
+    "objectID": "src/presentations/Functional_analysis.html#differential-expression",
+    "href": "src/presentations/Functional_analysis.html#differential-expression",
+    "title": "Functional Analysis",
+    "section": "Differential Expression",
+    "text": "Differential Expression\n\n\nUnderstanding systematic changes between experimental groups or conditions\n\n\n\n\n\nIdentify genes with differential expression pattern using between- and within-condition variability\nRequires biological replicates (multiple sample from each condition)\nMultiple R packages exist specific for DE analysis (e.g. edgeR, DESeq2)\n\n\n\n\n\nImage from hbctraing:Intro-to-DGE"
+  },
+  {
+    "objectID": "src/presentations/Functional_analysis.html#differential-expression-analysis",
+    "href": "src/presentations/Functional_analysis.html#differential-expression-analysis",
+    "title": "Functional Analysis",
+    "section": "Differential Expression Analysis",
+    "text": "Differential Expression Analysis\nRNAseq Data Challenges:\n\nLimited number of replicates per group\nMean-variance dependency\nSkewed count distribution\n\n\n\nImage from hbctraing:Intro-to-DGE"
+  },
+  {
+    "objectID": "src/presentations/Functional_analysis.html#deseq2",
+    "href": "src/presentations/Functional_analysis.html#deseq2",
+    "title": "Functional Analysis",
+    "section": "DESeq2",
+    "text": "DESeq2\n\n\n\n\nStatistical modeling\n\nmodel RNA-seq counts as negative binomial distribution\nborrow information from genes with similar expression pattern to estimate gene-wise dispersion\nFit a Generalized linear model for each gene and run Wald test\n\n\n\n\n\nImage from hbctraing:Intro-to-DGE"
+  },
+  {
+    "objectID": "src/presentations/Functional_analysis.html#the-design-matrix-and-contrasts",
+    "href": "src/presentations/Functional_analysis.html#the-design-matrix-and-contrasts",
+    "title": "Functional Analysis",
+    "section": "The Design Matrix and Contrasts",
+    "text": "The Design Matrix and Contrasts\n\nDesign matrix\n\nDescribes the model coefficients\nInclude variable of interest and all variables to account for\n\ndesignFormula = ~ sex + time\n\nContrasts\n\nDescribes the comparison of interest (reference variable and levels to compare)\n\nresults(dds, contrast = c(\"time\", \"Day8\", \"Day0\"))"
+  },
+  {
+    "objectID": "src/presentations/Functional_analysis.html#de-results",
+    "href": "src/presentations/Functional_analysis.html#de-results",
+    "title": "Functional Analysis",
+    "section": "DE Results",
+    "text": "DE Results\n\n\n\nHeatmap\n\n\nVolcano plot"
+  },
+  {
+    "objectID": "src/presentations/workshop.html#format",
+    "href": "src/presentations/workshop.html#format",
+    "title": "RNA-seq analysis",
+    "section": "Format",
+    "text": "Format\n\n\n \n\nPresentations: background, theory, examples\nExercises: R-code + questions\nRECAP: group discussion + results\n\n\nAsk questions at anytime!"
+  },
+  {
+    "objectID": "src/presentations/workshop.html#resources",
+    "href": "src/presentations/workshop.html#resources",
+    "title": "RNA-seq analysis",
+    "section": "Resources",
+    "text": "Resources\n\n\nhttps://almutlue.github.io/RNAseq-workshop/\n\n\nHelp\n\nAsk one of us!\nDiscuss with your neighbour!\nCheck the vignettes (DESeq2 and Seurat)\nAsk an AI tool of your choice!\n\n\nhttps://github.com/almutlue/RNAseq-workshop"
   },
   {
     "objectID": "src/exercises/exercise_sc4_de.html",
